@@ -1426,24 +1426,24 @@
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('aceRegisteredFlowModal')">×</button>
             <div class="modal-header">
-                <h2>Great! You're Ready to Go</h2>
-                <p>Since you're already ACE registered, this is simple.</p>
+                <h2>✓ Perfect! You're Ready</h2>
+                <p>We've received your info. Here's what happens next.</p>
             </div>
-            <p style="margin-bottom: 1.5rem;">Here's what happens next:</p>
-            <ol style="margin-left: 1.5rem; color: var(--text-light); line-height: 2;">
-                <li>Review our 6-step ACE access process</li>
-                <li>Grant us read-only access (you control everything)</li>
-                <li>We'll have your audit in 48 hours</li>
+            <ol style="margin-left: 1.5rem; color: var(--text-light); line-height: 2.2; margin-bottom: 2rem; margin-top: 1.5rem;">
+                <li><strong>Step 1:</strong> We'll email you a link to grant read-only ACE access (10 mins)</li>
+                <li><strong>Step 2:</strong> We run your audit (24–48 hours)</li>
+                <li><strong>Step 3:</strong> You get your refund breakdown + Phase 1 vs Phase 2 roadmap</li>
             </ol>
             <div class="flow-buttons">
-                <button class="cta-button cta-primary" style="width: 100%; margin-top: 1.5rem;">Grant ACE Access Now</button>
+                <button class="cta-button cta-primary" style="width: 100%;" onclick="closeModal('aceRegisteredFlowModal')">Got It</button>
             </div>
             <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-light); border-radius: 4px; text-align: center;">
                 <strong>Timeline</strong><br>
-                TODAY: Grant access (10 mins)<br>
-                TOMORROW–DAY 2: Audit complete<br>
-                THEN: See your refund roadmap
+                <span style="color: var(--primary);">10 mins:</span> Grant ACE access<br>
+                <span style="color: var(--primary);">48 hours:</span> Audit complete<br>
+                <span style="color: var(--primary);">Then:</span> See your refund
             </div>
+            <p style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-light);">We'll email you the next steps shortly.</p>
         </div>
     </div>
 
@@ -1451,27 +1451,27 @@
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('notAceRegisteredFlowModal')">×</button>
             <div class="modal-header">
-                <h2>It's Okay, We'll Guide You Through It</h2>
-                <p>Getting ACE registered takes 1–2 weeks, but here's what we recommend:</p>
+                <h2>✓ No Problem — We Can Help</h2>
+                <p>We've received your info. Here's what we can do:</p>
             </div>
 
-            <h3 style="color: var(--secondary); margin-top: 1.5rem; margin-bottom: 0.75rem;">OPTION 1 (Fastest)</h3>
-            <p style="color: var(--text-light); margin-bottom: 1.5rem;"><strong>Let's Get You ACE Registered</strong><br>We'll provide step-by-step guidance and templates to expedite ACE registration. Most companies complete it in 7–10 days with our support.</p>
+            <h3 style="color: var(--secondary); margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1rem;">OPTION 1: We Guide ACE Registration</h3>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem;">We provide step-by-step guidance + templates. Most companies register in 7–10 days with our help. Then we run your full audit.</p>
 
-            <h3 style="color: var(--secondary); margin-bottom: 0.75rem;">OPTION 2 (Quick Win)</h3>
-            <p style="color: var(--text-light); margin-bottom: 2rem;"><strong>Start With a Preliminary Estimate</strong><br>Even before ACE registration, we can analyze your existing tariff data to give you a ballpark refund estimate. No audit fee required.</p>
+            <h3 style="color: var(--secondary); margin-bottom: 0.75rem; font-size: 1rem;">OPTION 2: Quick Preliminary Estimate</h3>
+            <p style="color: var(--text-light); margin-bottom: 2rem; font-size: 0.95rem;">We analyze your tariff data to give you a ballpark estimate. No fees. You then decide on the full audit.</p>
 
             <div class="flow-buttons">
-                <button class="cta-button cta-primary" style="width: 100%;">Get ACE Registered</button>
-                <button class="cta-button cta-secondary" style="width: 100%;">Preliminary Estimate</button>
+                <button class="cta-button cta-primary" style="width: 100%;" onclick="closeModal('notAceRegisteredFlowModal')">Got It, Thanks</button>
             </div>
 
             <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-light); border-radius: 4px; text-align: center;">
                 <strong>Timeline</strong><br>
-                1–2 WEEKS: Get ACE registered<br>
-                48 HOURS: Full audit delivered<br>
-                THEN: See your refund roadmap
+                <span style="color: var(--primary);">1–2 weeks:</span> ACE registration<br>
+                <span style="color: var(--primary);">48 hours:</span> Audit delivered<br>
+                <span style="color: var(--primary);">Then:</span> See your refund
             </div>
+            <p style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-light);">We'll email you with the next steps and your options.</p>
         </div>
     </div>
 
