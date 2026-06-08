@@ -152,6 +152,12 @@ function notifyTeam_(d) {
 
 // ---------- helpers ----------
 
+function json_(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function safeBlob_(id) {
   if (!id || id.indexOf('PASTE') === 0) return null;
   try { return DriveApp.getFileById(id).getBlob(); } catch (e) { return null; }
