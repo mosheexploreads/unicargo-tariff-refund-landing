@@ -18,16 +18,16 @@ var CONFIG = {
   SHEET_NAME: 'Leads',
 
   // Who receives the internal "new lead" notification:
-  NOTIFY_EMAIL: 'moshet20@gmail.com',
+  NOTIFY_EMAIL: 'moshe@explorads.com',
 
   // Reply-to + sender display name on the email to the lead:
-  REPLY_TO: 'moshet20@gmail.com',
+  REPLY_TO: 'moshe@explorads.com',
   FROM_NAME: 'Unicargo Customs Advisory',
 
   // Google Drive file IDs of the two PDFs (see setup guide for how to get these).
   // Leave as-is and the email still sends — just without that attachment.
-  ACE_GUIDE_FILE_ID: 'PASTE_ACE_REGISTRATION_GUIDE_PDF_FILE_ID',
-  ES_GUIDE_FILE_ID:  'PASTE_ES001_ES003_DOWNLOAD_GUIDE_PDF_FILE_ID'
+  ACE_GUIDE_FILE_ID: '1xoSjenZfDsaDXD5-d1LNn4cmI8aX25K6',
+  ES_GUIDE_FILE_ID:  '1FkFR9q_4cqS0Sx0NroD1kt4XjnDeodq4'
 };
 // ============================================================
 
