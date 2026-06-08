@@ -1,0 +1,22 @@
+# Documentation files (kept locally, not in Git)
+*.pdf
+FOLLOW_UP_EMAIL_SEQUENCES.md
+LANDING_PAGE_DEPLOYMENT_GUIDE.md
+LAUNCH_SUMMARY_AND_NEXT_STEPS.md
+GITHUB_RAILWAY_SETUP.md
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-project
+
+# Environment files
+.env
+.env.local
+.env.*.local

@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEEPA Tariff Refund Audit - Unicargo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00BFB3;
+            --primary-dark: #008B80;
+            --secondary: #1A3A52;
+            --accent: #7FCD00;
+            --text-dark: #1A1A1A;
+            --text-light: #666666;
+            --bg-light: #F7F9FC;
+            --border: #E0E0E0;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        nav {
+            display: none;
+        }
+
+        .header-cta {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .header-cta:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                display: block;
+            }
+            nav a {
+                margin-right: 2rem;
+                text-decoration: none;
+                color: var(--text-dark);
+                font-size: 0.95rem;
+                transition: color 0.3s;
+            }
+            nav a:hover {
+                color: var(--primary);
+            }
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            margin-top: 60px;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 191, 179, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .cta-primary {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .cta-primary:hover {
+            background: #00A399;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 191, 179, 0.3);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--primary);
+        }
+
+        .cta-secondary:hover {
+            background: rgba(0, 191, 179, 0.1);
+        }
+
+        .escrow-info {
+            background: rgba(0, 191, 179, 0.15);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+        }
+
+        .escrow-info h3 {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .escrow-info ul {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .escrow-info li {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .escrow-info li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .trust-badges {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .badge-logo {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .badge h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .badge p {
+            font-size: 0.8rem;
+            opacity: 0.85;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1.2fr 1fr;
+            }
+            .hero-text h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        /* ===== STICKY FORM (Desktop) ===== */
+        .form-sidebar {
+            display: none;
+            position: fixed;
+            right: 0;
+            top: 60px;
+            width: 380px;
+            max-height: calc(100vh - 60px);
+            background: var(--white);
+            border-left: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+            z-index: 999;
+        }
+
+        .form-sidebar.visible {
+            display: block;
+        }
+
+        @media (min-width: 1400px) {
+            .form-sidebar {
+                display: block;
+            }
+            main {
+                margin-right: 380px;
+            }
+        }
+
+        .form-wrapper h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .form-wrapper p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 191, 179, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            flex: 1;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        .radio-option label {
+            display: inline;
+            font-weight: 500;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .form-group.ace-message {
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .form-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 191, 179, 0.3);
+        }
+
+        .form-trust {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===== ESCROW MODEL SECTION ===== */
+        .escrow-section {
+            padding: 4rem 2rem;
+            background: var(--white);
+        }
+
+        .escrow-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .escrow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-card {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-card .step-number {
+            background: var(--primary);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .step-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .step-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .escrow-callout {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-top: 2rem;
+        }
+
+        .escrow-callout h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .escrow-callout a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats-section {
+            padding: 3rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .stats-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works {
+            padding: 4rem 2rem;
+            background: var(--white);
+        }
+
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .how-card {
+            padding: 2rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .how-card .number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin: 0 auto 1rem;
+        }
+
+        .how-card h3 {
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .how-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ===== MIDDLE CTA SECTION ===== */
+        .middle-cta {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .middle-cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .middle-cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .middle-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .middle-cta .cta-button {
+            margin: 0 auto;
+        }
+
+        .middle-cta-subtext {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        .middle-cta-secondary {
+            margin-top: 1rem;
+        }
+
+        /* ===== WHAT YOU'LL GET ===== */
+        .what-youll-get {
+            padding: 4rem 2rem;
+            background: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            border-top: 4px solid var(--primary);
+        }
+
+        .feature-card .number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .feature-card h3 {
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* ===== SAMPLE REPORT ===== */
+        .sample-report {
+            padding: 4rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .sample-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .report-visual {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .report-visual img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .report-placeholder {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 4rem 2rem;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* ===== URGENCY SECTION ===== */
+        .urgency-section {
+            padding: 4rem 2rem;
+            background: var(--white);
+        }
+
+        .urgency-card {
+            background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%);
+            color: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid var(--accent);
+            margin-top: 2rem;
+        }
+
+        .urgency-number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .urgency-label {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .urgency-card p {
+            margin: 1rem 0;
+            opacity: 0.9;
+        }
+
+        /* ===== TRUST SECTION ===== */
+        .trust-section {
+            padding: 4rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .trust-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .trust-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .trust-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .trust-card h4 {
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .trust-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ===== FAQ ===== */
+        .faq-section {
+            padding: 4rem 2rem;
+            background: var(--white);
+        }
+
+        .faq-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .faq-question h4 {
+            color: var(--secondary);
+            margin-right: 1rem;
+            flex: 1;
+        }
+
+        .faq-toggle {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 1rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .faq-answer.visible {
+            display: block;
+        }
+
+        /* ===== FINAL CTA ===== */
+        .final-cta {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .final-cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .final-cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .final-cta-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 3rem 2rem;
+            background: var(--secondary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-copyright {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            .hero-text p {
+                font-size: 1rem;
+            }
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+            .final-cta h2 {
+                font-size: 1.75rem;
+            }
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== FLOW MODALS (Hidden by default) ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.visible {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .flow-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flow-button {
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .flow-button:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 191, 179, 0.2);
+        }
+
+        .flow-button h3 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .flow-button p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <div class="logo">Uni<span>CARGO</span></div>
+            <nav>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#what-youll-get">What You'll Get</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+            <button class="header-cta">Get Audit</button>
+        </div>
+    </header>
+
+    <!-- STICKY FORM (Desktop) -->
+    <aside class="form-sidebar">
+        <div class="form-wrapper">
+            <h3>Get Your Audit Assessment</h3>
+            <p>Free analysis. No credit card needed.</p>
+            <form id="mainForm">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" name="company" required placeholder="Your company name">
+                </div>
+
+                <div class="form-group">
+                    <label>Work Email</label>
+                    <input type="email" name="email" required placeholder="your@company.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Annual Tariff Spend</label>
+                    <select name="tariffSpend" required>
+                        <option value="">Select range</option>
+                        <option value="<100k">Less than $100K</option>
+                        <option value="100k-500k">$100K – $500K</option>
+                        <option value="500k-1m">$500K – $1M</option>
+                        <option value="1m-5m">$1M – $5M</option>
+                        <option value=">5m">More than $5M</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Are you ACE registered?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="aceYes" name="aceRegistered" value="yes" required>
+                            <label for="aceYes">Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="aceNo" name="aceRegistered" value="no" required>
+                            <label for="aceNo">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group ace-message" id="aceMessage" style="display: none;">
+                    <strong>It's okay, we'll guide you through it.</strong>
+                </div>
+
+                <button type="submit" class="form-submit">See My Refund Estimate</button>
+
+                <div class="form-trust">
+                    48-hour audit • Held in escrow • Full reconciliation
+                </div>
+            </form>
+        </div>
+    </aside>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Don't Leave $$$ on the Table</h1>
+                    <p>Your company is owed an IEEPA tariff refund. See your exact amount in 48 hours.</p>
+                    <div class="hero-cta-group">
+                        <button class="cta-button cta-primary" onclick="document.getElementById('mainForm').scrollIntoView({behavior: 'smooth'})">
+                            Get Your Audit Now
+                        </button>
+                        <button class="cta-button cta-secondary">See what others recovered</button>
+                    </div>
+                    <div class="escrow-info">
+                        <h3>How Pricing Works</h3>
+                        <ul>
+                            <li>Audit fee held in escrow with BDO</li>
+                            <li>Released when your refund arrives</li>
+                            <li>Full transparency. No surprises.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="trust-badges">
+                    <div class="badge">
+                        <div class="badge-logo">🏦</div>
+                        <h4>BDO Escrow-Backed</h4>
+                        <p>Transparent pricing</p>
+                    </div>
+                    <div class="badge">
+                        <div class="badge-logo">✓</div>
+                        <h4>48-Hour Audit</h4>
+                        <p>Guaranteed</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ESCROW MODEL SECTION -->
+        <section class="escrow-section">
+            <div class="escrow-content">
+                <div class="section-header">
+                    <h2>How Pricing Works</h2>
+                    <p>You only pay if we deliver. Simple as that.</p>
+                </div>
+
+                <div class="escrow-steps">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>You Pay</h3>
+                        <p>Fee deposited to BDO escrow (not to Unicargo). You retain full control.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>We Deliver</h3>
+                        <p>48-hour audit completed. Entry-by-entry breakdown. Phase 1 vs Phase 2 roadmap.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>You Get Paid</h3>
+                        <p>Your refund arrives (60–90 days). Fee released from escrow. You keep 100% of refund.</p>
+                    </div>
+                </div>
+
+                <div class="escrow-callout">
+                    <h4>Why BDO?</h4>
+                    <p>Unicargo's fee is held in escrow by BDO, one of the Big Four audit firms. This means you're never at risk, we're aligned on success, and you have full transparency at every step.</p>
+                    <p><a href="#">Learn more about BDO Escrow →</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS SECTION -->
+        <section class="stats-section">
+            <div class="stats-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">$166B</div>
+                        <div class="stat-label">Total IEEPA duties eligible for refund (Per CBP, April 2026)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">$503K</div>
+                        <div class="stat-label">Average refund per importer (330K affected importers ÷ $166B)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">76%</div>
+                        <div class="stat-label">Of duties eligible for Phase 1 filing (File now before window closes)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="how-it-works" id="how-it-works">
+            <div class="how-grid" style="max-width: 1400px; margin: 0 auto;">
+                <div style="grid-column: 1 / -1; text-align: center; margin-bottom: 1rem;">
+                    <h2 style="font-size: 2rem; color: var(--secondary);">3-Step Process. Get Your Answer in 2 Days.</h2>
+                </div>
+                <div class="how-card">
+                    <div class="number">1</div>
+                    <h3>Analyze (10 min)</h3>
+                    <p>Grant read-only ACE access in a 6-step process. Our system cross-references every entry against IEEPA HTS classifications and CBP liquidation windows.</p>
+                </div>
+                <div class="how-card">
+                    <div class="number">2</div>
+                    <h3>Audit (24–48 hrs)</h3>
+                    <p>A full breakdown showing exactly what refund you're entitled to — entry-by-entry, line-by-line, with Phase 1 vs Phase 2 split clearly identified.</p>
+                </div>
+                <div class="how-card">
+                    <div class="number">3</div>
+                    <h3>Report (Ready)</h3>
+                    <p>Interactive HTML dashboard, Excel validation workbook, and Phase 1 vs Phase 2 eligibility split. We can guide you through CAPE filing if you'd like support.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MIDDLE CTA SECTION -->
+        <section class="middle-cta">
+            <div class="middle-cta-content">
+                <h2>Ready to See What You're Owed?</h2>
+                <p>Most of our customers find out within 48 hours that they're eligible for a significant refund. Your audit starts with a single click.</p>
+                <button class="cta-button cta-primary">Get Your Refund Estimate Now</button>
+                <div class="middle-cta-subtext">
+                    ✓ $2K–$10K audit fee (escrowed) • ✓ 48-hour turnaround • ✓ Full entry-by-entry breakdown
+                </div>
+                <div class="middle-cta-secondary">
+                    <button class="cta-button cta-secondary">Or schedule a quick call</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT YOU'LL GET -->
+        <section class="what-youll-get" id="what-youll-get">
+            <div style="max-width: 1400px; margin: 0 auto;">
+                <div class="section-header">
+                    <h2>What You'll Get</h2>
+                    <p>Your audit includes everything you need to move forward.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="number">1</div>
+                        <h3>Interactive Dashboard</h3>
+                        <p>Phase 1 vs Phase 2 breakdown with HTS classification detail. Shareable internally across your team.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="number">2</div>
+                        <h3>HTS Classification Detail</h3>
+                        <p>IEEPA vs Section 301/232 breakdown per entry line. Know exactly which tariffs you can recover.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="number">3</div>
+                        <h3>Phase 1 vs Phase 2 Roadmap</h3>
+                        <p>File now: $127B pool. Phase 1 (80-day window). Phase 2 (protest route). Clear path forward.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="number">4</div>
+                        <h3>Full Audit Trail</h3>
+                        <p>Every number traces to CBP source data. Excel validation workbook — every dollar traceable. 100% reconciled.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SAMPLE REPORT -->
+        <section class="sample-report">
+            <div class="sample-content">
+                <div class="section-header">
+                    <h2>See What Your Audit Will Look Like</h2>
+                    <p>This is a real audit, anonymized. Every figure traces back to CBP data. Yours will follow the same format.</p>
+                </div>
+                <div class="report-visual">
+                    <div class="report-placeholder">
+                        [Your Unicargo Dashboard Screenshot Here]<br>
+                        (Interactive HTML dashboard with Phase 1/Phase 2 breakdown, HTS classification detail, expiry alerts, full reconciliation)
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="cta-button cta-primary">Start Your Free Audit →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- URGENCY SECTION -->
+        <section class="urgency-section">
+            <div style="max-width: 1400px; margin: 0 auto;">
+                <div class="section-header">
+                    <h2>Don't Wait — Phase 1 Window Is Closing</h2>
+                </div>
+                <div class="urgency-card">
+                    <div class="urgency-number">80</div>
+                    <div class="urgency-label">Day Window</div>
+                    <p>Entries liquidated before the Supreme Court ruling (Feb 20, 2026) are moving into Phase 2 — which requires a complex CBP protest process.</p>
+                    <p><strong>Your earliest entries could expire within weeks.</strong></p>
+                    <button class="cta-button cta-primary" style="margin-top: 1rem;">Check My Expiring Entries</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRUST SECTION -->
+        <section class="trust-section">
+            <div class="trust-content">
+                <div class="section-header">
+                    <h2>You Can Trust Us</h2>
+                    <p>Built on partnerships with the world's leading customs and compliance firms.</p>
+                </div>
+                <div class="trust-grid">
+                    <div class="trust-card">
+                        <div class="trust-icon">🏦</div>
+                        <h4>BDO Escrow-Backed</h4>
+                        <p>Your audit fee is held in escrow by BDO, one of the Big Four audit firms. Released when your refund arrives.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">✓</div>
+                        <h4>100% Reconciliation</h4>
+                        <p>Every figure in your audit traces directly to your ACE entry data. Full transparency, no hidden numbers.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">📈</div>
+                        <h4>Trusted by 500+</h4>
+                        <p>Leading companies rely on Unicargo for customs advisory, tariff recovery, and trade compliance.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">⚡</div>
+                        <h4>48-Hour Turnaround</h4>
+                        <p>Your audit is delivered within 2 business days of granting ACE access. Time is critical right now.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">🛡</div>
+                        <h4>CAPE Filing Support</h4>
+                        <p>Once your audit is ready, we can guide you through CAPE filing or handle it completely for you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="faq-section" id="faq">
+            <div class="faq-content">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>How much will this cost?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">The audit fee depends on your estimated refund size and complexity. Typical range: $2K–$10K. The fee is held in escrow by BDO and released when your CBP refund arrives. This means zero risk for you.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>What is the escrow process?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">When you're ready to proceed, you'll pay the audit fee directly to a BDO escrow account (not to Unicargo). BDO holds it until your CBP refund is processed. Once the refund arrives, BDO releases the fee to us. You keep 100% of your refund.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Can I get my money back from escrow if I change my mind?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">Yes. Before we begin the audit, you can cancel and retrieve your escrow deposit with no penalty. Once the audit is underway, standard cancellation terms apply. See our service agreement for details.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Do you need my actual tariff data?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">We need read-only access to your ACE account. You control the access via the CBP system — you can revoke it anytime. We never download or store your data on our servers.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>What if I'm not ACE registered yet?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">We help. Most companies complete ACE registration in 1–2 weeks with our guidance. Or, if you prefer, we can give you a quick preliminary estimate first (no audit fee required).</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>What's the difference between Phase 1 and Phase 2?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">Phase 1 (80 days from entry liquidation): File via CBP CAPE portal — straightforward, 60–90 day refund processing. Phase 2 (after 80 days): Requires formal CBP protest — complex, longer timeline. Our audit tells you exactly which path applies to each entry.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>How long does filing take?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">The CAPE filing itself takes 1–2 weeks. CBP then processes refunds in 60–90 days. Phase 2 protests take longer (depends on CBP workload).</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Will BDO escrow charge me fees?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">BDO's escrow service is included in your Unicargo audit fee. No additional escrow charges — all-in pricing.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>What if you find $0 refund?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">Honesty first. If our audit finds no eligible refunds, you pay nothing. Period. We only charge when there's a refund to pursue.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Can I see a sample audit before committing?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">Yes. We provide a real, anonymized audit sample on this page. Every audit follows the same format — 100% reconciled, entry-by-entry breakdown, Phase 1 vs Phase 2 split.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="final-cta-content">
+                <h2>Ready?</h2>
+                <p>See what your company is owed. Free audit assessment, no commitment.</p>
+                <div class="final-cta-buttons">
+                    <button class="cta-button cta-primary">Get Your Audit Now →</button>
+                    <button class="cta-button cta-secondary">Schedule a Call</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Blog</a>
+                <a href="#">ACE Registration Guide</a>
+            </div>
+            <div class="footer-copyright">
+                © 2026 Unicargo. All rights reserved. IEEPA Tariff Refunds are administered by the U.S. Customs and Border Protection (CBP).
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOW MODALS -->
+    <div id="aceRegisteredFlowModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('aceRegisteredFlowModal')">×</button>
+            <div class="modal-header">
+                <h2>Great! You're Ready to Go</h2>
+                <p>Since you're already ACE registered, this is simple.</p>
+            </div>
+            <p style="margin-bottom: 1.5rem;">Here's what happens next:</p>
+            <ol style="margin-left: 1.5rem; color: var(--text-light); line-height: 2;">
+                <li>Review our 6-step ACE access process</li>
+                <li>Grant us read-only access (you control everything)</li>
+                <li>We'll have your audit in 48 hours</li>
+            </ol>
+            <div class="flow-buttons">
+                <button class="cta-button cta-primary" style="width: 100%; margin-top: 1.5rem;">Grant ACE Access Now</button>
+                <button class="cta-button cta-secondary" style="width: 100%; margin-top: 1rem;">Schedule a Call</button>
+            </div>
+            <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-light); border-radius: 4px; text-align: center;">
+                <strong>Timeline</strong><br>
+                TODAY: Grant access (10 mins)<br>
+                TOMORROW–DAY 2: Audit complete<br>
+                THEN: See your refund roadmap
+            </div>
+        </div>
+    </div>
+
+    <div id="notAceRegisteredFlowModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('notAceRegisteredFlowModal')">×</button>
+            <div class="modal-header">
+                <h2>It's Okay, We'll Guide You Through It</h2>
+                <p>Getting ACE registered takes 1–2 weeks, but here's what we recommend:</p>
+            </div>
+
+            <h3 style="color: var(--secondary); margin-top: 1.5rem; margin-bottom: 0.75rem;">OPTION 1 (Fastest)</h3>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;"><strong>Let's Get You ACE Registered</strong><br>We'll provide step-by-step guidance and templates to expedite ACE registration. Most companies complete it in 7–10 days with our support.</p>
+
+            <h3 style="color: var(--secondary); margin-bottom: 0.75rem;">OPTION 2 (Quick Win)</h3>
+            <p style="color: var(--text-light); margin-bottom: 2rem;"><strong>Start With a Preliminary Estimate</strong><br>Even before ACE registration, we can analyze your existing tariff data to give you a ballpark refund estimate. No audit fee required.</p>
+
+            <div class="flow-buttons">
+                <button class="cta-button cta-primary" style="width: 100%;">Get ACE Registered</button>
+                <button class="cta-button cta-secondary" style="width: 100%;">Preliminary Estimate</button>
+            </div>
+
+            <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-light); border-radius: 4px; text-align: center;">
+                <strong>Timeline</strong><br>
+                1–2 WEEKS: Get ACE registered<br>
+                48 HOURS: Full audit delivered<br>
+                THEN: See your refund roadmap
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Form handling
+        document.getElementById('mainForm').addEventListener('change', function() {
+            const aceNo = document.getElementById('aceNo');
+            const aceMessage = document.getElementById('aceMessage');
+
+            if (aceNo.checked) {
+                aceMessage.style.display = 'block';
+            } else {
+                aceMessage.style.display = 'none';
+            }
+        });
+
+        document.getElementById('mainForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const aceRegistered = document.querySelector('input[name="aceRegistered"]:checked').value;
+
+            if (aceRegistered === 'yes') {
+                openModal('aceRegisteredFlowModal');
+            } else {
+                openModal('notAceRegisteredFlowModal');
+            }
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('visible');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('visible');
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('visible');
+            }
+        });
+
+        // FAQ toggle
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const toggle = element.querySelector('.faq-toggle');
+
+            answer.classList.toggle('visible');
+            toggle.textContent = answer.classList.contains('visible') ? '−' : '+';
+        }
+
+        // Smooth scroll for header CTA
+        document.querySelector('.header-cta').addEventListener('click', function() {
+            const form = document.getElementById('mainForm');
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    </script>
+</body>
+</html>
