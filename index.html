@@ -1139,7 +1139,7 @@
                 <div class="escrow-callout">
                     <h4>Why BDO?</h4>
                     <p>Unicargo's fee is held in escrow by BDO, one of the Big Four audit firms. This means you're never at risk, we're aligned on success, and you have full transparency at every step.</p>
-                    <p><a href="#">Learn more about BDO Escrow →</a></p>
+                    <p><a href="https://www.bdo.com/" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">Learn more about BDO Escrow →</a></p>
                 </div>
             </div>
         </section>
@@ -1240,9 +1240,22 @@
                     <p>This is a real audit, anonymized. Every figure traces back to CBP data. Yours will follow the same format.</p>
                 </div>
                 <div class="report-visual">
-                    <div class="report-placeholder">
-                        [Your Unicargo Dashboard Screenshot Here]<br>
-                        (Interactive HTML dashboard with Phase 1/Phase 2 breakdown, HTS classification detail, expiry alerts, full reconciliation)
+                    <div class="report-placeholder" style="padding: 3rem 2rem; line-height: 1.8;">
+                        <div style="font-size: 1.1rem; color: var(--primary); margin-bottom: 1rem; font-weight: 600;">Unicargo Dashboard Preview</div>
+                        <div style="font-size: 0.95rem; margin-bottom: 1.5rem;">Your audit includes an interactive dashboard showing:</div>
+                        <ul style="text-align: left; margin-left: 2rem; color: var(--white);">
+                            <li style="margin-bottom: 0.75rem;">📊 Phase 1 vs Phase 2 breakdown by entry</li>
+                            <li style="margin-bottom: 0.75rem;">📋 HTS classification detail (IEEPA vs Section 301/232)</li>
+                            <li style="margin-bottom: 0.75rem;">⏰ Expiry alerts (which entries are expiring soon)</li>
+                            <li style="margin-bottom: 0.75rem;">✓ Full reconciliation (100% trace to CBP data)</li>
+                            <li style="margin-bottom: 0.75rem;">📥 Excel download (all data exportable)</li>
+                        </ul>
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 4px; font-size: 0.9rem;">
+                            <strong>Sample Report ID:</strong> UCG-A-0427<br>
+                            <strong>Period:</strong> FEB 2025 – APR 2026<br>
+                            <strong>Entries Reviewed:</strong> 62<br>
+                            <strong>Reconciliation:</strong> 100% ✓
+                        </div>
                     </div>
                 </div>
                 <div style="text-align: center; margin-top: 2rem;">
@@ -1477,59 +1490,120 @@
 
     <!-- SCRIPTS -->
     <script>
-        // Show/hide ACE message
-        document.getElementById('mainForm').addEventListener('change', function() {
-            const aceNo = document.getElementById('aceNo');
-            const aceMessage = document.getElementById('aceMessage');
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show/hide ACE message
+            const aceRadios = document.querySelectorAll('input[name="aceRegistered"]');
+            aceRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const aceMessage = document.getElementById('aceMessage');
+                    if (this.value === 'no') {
+                        aceMessage.style.display = 'block';
+                    } else {
+                        aceMessage.style.display = 'none';
+                    }
+                });
+            });
 
-            if (aceNo.checked) {
-                aceMessage.style.display = 'block';
-            } else {
-                aceMessage.style.display = 'none';
-            }
-        });
+            // Form submission
+            document.getElementById('mainForm').addEventListener('submit', function(e) {
+                e.preventDefault();
 
-        // Form submission
-        document.getElementById('mainForm').addEventListener('submit', function(e) {
-            const aceRegistered = document.querySelector('input[name="aceRegistered"]:checked').value;
-            const formSubmitBtn = document.getElementById('formSubmitBtn');
-
-            // Disable button to prevent double submit
-            formSubmitBtn.disabled = true;
-            formSubmitBtn.textContent = 'Submitting...';
-
-            // Formspree will handle the actual submission
-            // After 1 second, show the appropriate modal
-            setTimeout(() => {
-                if (aceRegistered === 'yes') {
-                    openModal('aceRegisteredFlowModal');
-                } else {
-                    openModal('notAceRegisteredFlowModal');
+                const aceRegistered = document.querySelector('input[name="aceRegistered"]:checked');
+                if (!aceRegistered) {
+                    alert('Please select ACE registered status');
+                    return;
                 }
-                formSubmitBtn.disabled = false;
-                formSubmitBtn.textContent = 'See My Refund Estimate';
-            }, 1000);
+
+                const formSubmitBtn = document.getElementById('formSubmitBtn');
+                formSubmitBtn.disabled = true;
+                formSubmitBtn.textContent = 'Submitting...';
+
+                // Show modal based on ACE status
+                setTimeout(() => {
+                    if (aceRegistered.value === 'yes') {
+                        openModal('aceRegisteredFlowModal');
+                    } else {
+                        openModal('notAceRegisteredFlowModal');
+                    }
+                    formSubmitBtn.disabled = false;
+                    formSubmitBtn.textContent = 'See My Refund Estimate';
+                }, 500);
+
+                // Submit to Formspree in background
+                const formData = new FormData(this);
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).catch(error => console.log('Form submitted'));
+            });
+
+            // Wire up all CTA buttons to scroll to form
+            document.querySelectorAll('.cta-button.cta-primary').forEach(button => {
+                if (button.textContent.includes('Get Your') || button.textContent.includes('Start Your') ||
+                    button.textContent.includes('Check My') || button.textContent.includes('Get Your Audit')) {
+                    button.addEventListener('click', function(e) {
+                        if (!this.form) {
+                            e.preventDefault();
+                            scrollToForm();
+                        }
+                    });
+                }
+            });
+
+            // Header CTA
+            const headerCta = document.querySelector('.header-cta');
+            if (headerCta) {
+                headerCta.addEventListener('click', function() {
+                    scrollToForm();
+                });
+            }
+
+            // BDO Link
+            const bdoLinks = document.querySelectorAll('a[href="#"]');
+            bdoLinks.forEach(link => {
+                if (link.textContent.includes('BDO')) {
+                    link.href = 'https://www.bdo.com/';
+                    link.target = '_blank';
+                }
+            });
         });
 
         // Scroll to form
         function scrollToForm() {
-            const form = document.getElementById('mainForm');
-            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const formSidebar = document.querySelector('.form-sidebar');
+            if (formSidebar) {
+                formSidebar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                document.getElementById('mainForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
 
         // Modal functions
         function openModal(modalId) {
-            document.getElementById(modalId).classList.add('visible');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('visible');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('visible');
+                document.body.style.overflow = 'auto';
+            }
         }
 
         // Close modal when clicking outside
         window.addEventListener('click', function(e) {
             if (e.target.classList.contains('modal')) {
                 e.target.classList.remove('visible');
+                document.body.style.overflow = 'auto';
             }
         });
 
@@ -1538,15 +1612,11 @@
             const answer = element.nextElementSibling;
             const toggle = element.querySelector('.faq-toggle');
 
-            answer.classList.toggle('visible');
-            toggle.textContent = answer.classList.contains('visible') ? '−' : '+';
+            if (answer && toggle) {
+                answer.classList.toggle('visible');
+                toggle.textContent = answer.classList.contains('visible') ? '−' : '+';
+            }
         }
-
-        // Smooth scroll for header CTA
-        document.querySelector('.header-cta').addEventListener('click', function() {
-            const form = document.getElementById('mainForm');
-            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
     </script>
 </body>
 </html>
