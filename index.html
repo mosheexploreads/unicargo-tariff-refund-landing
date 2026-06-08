@@ -691,6 +691,187 @@
             font-weight: 600;
         }
 
+        /* ===== DASHBOARD MOCKUP ===== */
+        .dash {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 2rem;
+            text-align: left;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .dash-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            background: #FBFCFE;
+            flex-wrap: wrap;
+        }
+
+        .dash-dots { display: flex; gap: 0.4rem; }
+        .dash-dots span { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+        .dot-r { background: #F4B740; }
+        .dot-y { background: #2BC4B6; }
+        .dot-g { background: #2BC4B6; }
+
+        .dash-path {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-left: 0.5rem;
+        }
+        .dash-path b { color: var(--secondary); }
+
+        .dash-reconciled {
+            margin-left: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+        .dash-reconciled .tie { color: var(--primary); }
+
+        .dash-body { padding: 1.5rem; }
+
+        .dash-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .dash-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1rem 0.85rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .dash-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+        .dash-card.c-teal::before   { background: #2BC4B6; }
+        .dash-card.c-lime::before   { background: #A4CE4E; }
+        .dash-card.c-dark::before   { background: #1A3A52; }
+        .dash-card.c-purple::before { background: #B9A7E6; }
+
+        .dash-card .k-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.09em;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .dash-card .k-value {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: var(--secondary);
+            line-height: 1;
+        }
+        .dash-card .k-value sup,
+        .dash-card .k-value .k-sub {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-light);
+            vertical-align: baseline;
+        }
+        .dash-card .k-desc {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            line-height: 1.45;
+            min-height: 2.6em;
+        }
+
+        .k-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 26px;
+            margin-top: 0.85rem;
+        }
+        .k-bars i { flex: 1; border-radius: 2px 2px 0 0; display: block; }
+        .c-teal   .k-bars i { background: #2BC4B6; }
+        .c-lime   .k-bars i { background: #A4CE4E; }
+        .c-dark   .k-bars i { background: #1A3A52; }
+        .c-dark   .k-bars i.muted { background: #D5DCE3; }
+        .c-purple .k-bars i { background: #B9A7E6; }
+
+        .dash-split-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1.75rem 0 0.85rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        .dash-split-head h4 {
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            color: var(--secondary);
+            text-transform: uppercase;
+        }
+        .dash-split-head .meta {
+            font-family: 'Courier New', monospace;
+            font-size: 0.72rem;
+            color: var(--text-light);
+            letter-spacing: 0.05em;
+        }
+        .dash-split-head .meta b { color: var(--secondary); }
+
+        .dash-splitbar {
+            background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 70%);
+            border-radius: 8px;
+            padding: 1.4rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .pill {
+            background: rgba(43, 196, 182, 0.18);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 999px;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            white-space: nowrap;
+        }
+        .dash-splitbar .amt { color: #fff; font-size: 1.5rem; font-weight: 800; }
+        .dash-splitbar .pct { color: var(--primary); font-weight: 700; }
+
+        .dash-disclaimer {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .dash-cards { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 520px) {
+            .dash-cards { grid-template-columns: 1fr; }
+            .dash-card .k-desc { min-height: 0; }
+            .dash-path { font-size: 0.68rem; }
+            .dash-reconciled { display: none; }
+            .dash-splitbar .amt { font-size: 1.25rem; }
+        }
+
         /* ===== URGENCY SECTION ===== */
         .urgency-section {
             padding: 4rem 2rem;
@@ -1218,26 +1399,60 @@
                     <h2>See What Your Audit Will Look Like</h2>
                     <p>This is a real audit, anonymized. Every figure traces back to CBP data. Yours will follow the same format.</p>
                 </div>
-                <div class="report-visual">
-                    <div class="report-placeholder" style="padding: 3rem 2rem; line-height: 1.8;">
-                        <div style="font-size: 1.1rem; color: var(--primary); margin-bottom: 1rem; font-weight: 600;">Unicargo Dashboard Preview</div>
-                        <div style="font-size: 0.95rem; margin-bottom: 1.5rem;">Your audit includes an interactive dashboard showing:</div>
-                        <ul style="text-align: left; margin-left: 2rem; color: var(--white);">
-                            <li style="margin-bottom: 0.75rem;">📊 Phase 1 vs Phase 2 breakdown by entry</li>
-                            <li style="margin-bottom: 0.75rem;">📋 HTS classification detail (IEEPA vs Section 301/232)</li>
-                            <li style="margin-bottom: 0.75rem;">⏰ Expiry alerts (which entries are expiring soon)</li>
-                            <li style="margin-bottom: 0.75rem;">✓ Full reconciliation (100% trace to CBP data)</li>
-                            <li style="margin-bottom: 0.75rem;">📥 Excel download (all data exportable)</li>
-                        </ul>
-                        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 4px; font-size: 0.9rem;">
-                            <strong>Sample Report ID:</strong> UCG-A-0427 &nbsp;·&nbsp; <strong>Period:</strong> FEB 2025 – APR 2026<br>
-                            <strong>Entries Reviewed:</strong> 62 &nbsp;·&nbsp; <strong>Reconciled:</strong> 100% ✓
-                            <hr style="border:none; border-top:1px solid rgba(255,255,255,0.15); margin:0.85rem 0;">
-                            <strong>Refundable Pool:</strong> $168,427.30 across 47 eligible entries<br>
-                            <strong>CAPE Phase 1 — file now:</strong> $164,892.15 (97.9%)<br>
-                            <strong>Phase 2 — protest route:</strong> $3,535<br>
-                            <strong>Eligible Entries:</strong> 47 / 62 (75.8%) &nbsp;·&nbsp; <strong>IEEPA Coverage:</strong> 76%
+                <div class="dash">
+                    <!-- Browser-window header -->
+                    <div class="dash-bar">
+                        <span class="dash-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></span>
+                        <span class="dash-path"><b>UNICARGO.REFUND.AUDIT</b> / DASHBOARD.HTML</span>
+                        <span class="dash-reconciled">RECONCILED <span class="tie">✓ TIE</span></span>
+                    </div>
+
+                    <div class="dash-body">
+                        <!-- Four metric cards -->
+                        <div class="dash-cards">
+                            <div class="dash-card c-teal">
+                                <div class="k-label">Refundable Pool</div>
+                                <div class="k-value">$168,427<span class="k-sub">.30</span></div>
+                                <div class="k-desc">Total IEEPA duty across all eligible entries</div>
+                                <div class="k-bars"><i style="height:35%"></i><i style="height:45%"></i><i style="height:40%"></i><i style="height:65%"></i><i style="height:55%"></i><i style="height:80%"></i><i style="height:70%"></i><i style="height:100%"></i></div>
+                            </div>
+
+                            <div class="dash-card c-lime">
+                                <div class="k-label">CAPE Phase 1 — File Now</div>
+                                <div class="k-value">$164,892<span class="k-sub">.15</span></div>
+                                <div class="k-desc">Available immediately via CAPE portal submission</div>
+                                <div class="k-bars"><i style="height:30%"></i><i style="height:50%"></i><i style="height:40%"></i><i style="height:60%"></i><i style="height:75%"></i><i style="height:65%"></i><i style="height:85%"></i><i style="height:100%"></i></div>
+                            </div>
+
+                            <div class="dash-card c-dark">
+                                <div class="k-label">Eligible Entries</div>
+                                <div class="k-value">47 <span class="k-sub">/ 62</span></div>
+                                <div class="k-desc">75.8% of total entries reviewed carry refunds</div>
+                                <div class="k-bars"><i style="height:70%"></i><i style="height:70%"></i><i style="height:70%"></i><i style="height:70%"></i><i style="height:70%"></i><i class="muted" style="height:45%"></i><i class="muted" style="height:45%"></i></div>
+                            </div>
+
+                            <div class="dash-card c-purple">
+                                <div class="k-label">IEEPA Coverage</div>
+                                <div class="k-value">76<span class="k-sub">%</span></div>
+                                <div class="k-desc">Of all entries carry refundable IEEPA duty</div>
+                                <div class="k-bars"><i style="height:55%"></i><i style="height:45%"></i><i style="height:60%"></i><i style="height:50%"></i><i style="height:70%"></i><i style="height:60%"></i><i style="height:65%"></i></div>
+                            </div>
                         </div>
+
+                        <!-- Phase split -->
+                        <div class="dash-split-head">
+                            <h4>Phase 1 vs Phase 2 — Refundable Split</h4>
+                            <span class="meta">TOTAL POOL · <b>$168,427.30</b> · 47 ENTRIES</span>
+                        </div>
+                        <div class="dash-splitbar">
+                            <span class="pill">● PHASE 1 — FILE NOW</span>
+                            <span class="amt">$164,892</span>
+                            <span class="pct">97.9%</span>
+                        </div>
+
+                        <p class="dash-disclaimer">
+                            Real audit, anonymized · Report ID UCG-A-0427 · Period FEB 2025 – APR 2026 · 62 entries reviewed · 100% reconciled
+                        </p>
                     </div>
                 </div>
                 <div style="text-align: center; margin-top: 2rem;">
