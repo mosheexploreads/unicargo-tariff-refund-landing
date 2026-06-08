@@ -298,6 +298,28 @@
             margin-bottom: 1.5rem;
         }
 
+        .form-status {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            display: none;
+            text-align: center;
+        }
+
+        .form-status.success {
+            background: #E8F5E9;
+            color: #2E7D32;
+            display: block;
+            border: 1px solid #4CAF50;
+        }
+
+        .form-status.error {
+            background: #FFEBEE;
+            color: #C62828;
+            display: block;
+            border: 1px solid #F44336;
+        }
+
         .form-group {
             margin-bottom: 1.25rem;
         }
@@ -1001,7 +1023,8 @@
         <div class="form-wrapper">
             <h3>Get Your Audit Assessment</h3>
             <p>Free analysis. No credit card needed.</p>
-            <form id="mainForm">
+            <div class="form-status" id="formStatus"></div>
+            <form id="mainForm" action="https://formspree.io/f/mwpegdyq" method="POST">
                 <div class="form-group">
                     <label>Company Name</label>
                     <input type="text" name="company" required placeholder="Your company name">
@@ -1042,7 +1065,7 @@
                     <strong>It's okay, we'll guide you through it.</strong>
                 </div>
 
-                <button type="submit" class="form-submit">See My Refund Estimate</button>
+                <button type="submit" class="form-submit" id="formSubmitBtn">See My Refund Estimate</button>
 
                 <div class="form-trust">
                     48-hour audit • Held in escrow • Full reconciliation
@@ -1059,10 +1082,9 @@
                     <h1>Don't Leave $$$ on the Table</h1>
                     <p>Your company is owed an IEEPA tariff refund. See your exact amount in 48 hours.</p>
                     <div class="hero-cta-group">
-                        <button class="cta-button cta-primary" onclick="document.getElementById('mainForm').scrollIntoView({behavior: 'smooth'})">
+                        <button class="cta-button cta-primary" onclick="scrollToForm()">
                             Get Your Audit Now
                         </button>
-                        <button class="cta-button cta-secondary">See what others recovered</button>
                     </div>
                     <div class="escrow-info">
                         <h3>How Pricing Works</h3>
@@ -1174,9 +1196,6 @@
                 <button class="cta-button cta-primary">Get Your Refund Estimate Now</button>
                 <div class="middle-cta-subtext">
                     ✓ $2K–$10K audit fee (escrowed) • ✓ 48-hour turnaround • ✓ Full entry-by-entry breakdown
-                </div>
-                <div class="middle-cta-secondary">
-                    <button class="cta-button cta-secondary">Or schedule a quick call</button>
                 </div>
             </div>
         </section>
@@ -1418,7 +1437,6 @@
             </ol>
             <div class="flow-buttons">
                 <button class="cta-button cta-primary" style="width: 100%; margin-top: 1.5rem;">Grant ACE Access Now</button>
-                <button class="cta-button cta-secondary" style="width: 100%; margin-top: 1rem;">Schedule a Call</button>
             </div>
             <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-light); border-radius: 4px; text-align: center;">
                 <strong>Timeline</strong><br>
@@ -1459,7 +1477,7 @@
 
     <!-- SCRIPTS -->
     <script>
-        // Form handling
+        // Show/hide ACE message
         document.getElementById('mainForm').addEventListener('change', function() {
             const aceNo = document.getElementById('aceNo');
             const aceMessage = document.getElementById('aceMessage');
@@ -1471,17 +1489,33 @@
             }
         });
 
+        // Form submission
         document.getElementById('mainForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
             const aceRegistered = document.querySelector('input[name="aceRegistered"]:checked').value;
+            const formSubmitBtn = document.getElementById('formSubmitBtn');
 
-            if (aceRegistered === 'yes') {
-                openModal('aceRegisteredFlowModal');
-            } else {
-                openModal('notAceRegisteredFlowModal');
-            }
+            // Disable button to prevent double submit
+            formSubmitBtn.disabled = true;
+            formSubmitBtn.textContent = 'Submitting...';
+
+            // Formspree will handle the actual submission
+            // After 1 second, show the appropriate modal
+            setTimeout(() => {
+                if (aceRegistered === 'yes') {
+                    openModal('aceRegisteredFlowModal');
+                } else {
+                    openModal('notAceRegisteredFlowModal');
+                }
+                formSubmitBtn.disabled = false;
+                formSubmitBtn.textContent = 'See My Refund Estimate';
+            }, 1000);
         });
+
+        // Scroll to form
+        function scrollToForm() {
+            const form = document.getElementById('mainForm');
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
 
         // Modal functions
         function openModal(modalId) {
