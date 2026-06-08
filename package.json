@@ -1,0 +1,12 @@
+{
+  "name": "unicargo-tariff-refund-landing",
+  "version": "1.0.0",
+  "description": "IEEPA Tariff Refund Landing Page",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["tariff", "refund", "landing"],
+  "author": "Unicargo",
+  "license": "MIT"
+}
