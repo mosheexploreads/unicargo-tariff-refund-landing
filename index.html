@@ -1516,12 +1516,14 @@
                 }).catch(error => console.log('Form submitted'));
             });
 
-            // Wire up every CTA button (except the form's submit and modal buttons) to scroll to the form
+            // Wire up every CTA button (except the form's submit and modal buttons) to scroll to the form.
+            // NOTE: a <button> with no type attribute defaults to type="submit", so we must check
+            // whether it lives inside a <form> rather than checking button.type.
             document.querySelectorAll('.cta-button').forEach(button => {
-                const isSubmit = button.type === 'submit';
+                const insideForm = button.closest('form') !== null;
                 const hasInlineHandler = button.hasAttribute('onclick');
                 const insideModal = button.closest('.modal') !== null;
-                if (!isSubmit && !hasInlineHandler && !insideModal) {
+                if (!insideForm && !hasInlineHandler && !insideModal) {
                     button.addEventListener('click', function(e) {
                         e.preventDefault();
                         scrollToForm();
