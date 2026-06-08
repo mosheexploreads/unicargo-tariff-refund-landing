@@ -1034,7 +1034,7 @@
                         <h3>Get Your Audit Assessment</h3>
                         <p>Free analysis. No credit card needed.</p>
                         <div class="form-status" id="formStatus"></div>
-                        <form id="mainForm" action="https://formspree.io/f/mwpegdyq" method="POST">
+                        <form id="mainForm">
                             <div class="form-group">
                                 <label>Company Name</label>
                                 <input type="text" name="company" required placeholder="Your company name">
@@ -1480,6 +1480,9 @@
                 });
             });
 
+            // Google Apps Script Web App endpoint (set this to your deployed /exec URL)
+            const LEAD_ENDPOINT = 'PASTE_YOUR_WEB_APP_URL_HERE';
+
             // Form submission
             document.getElementById('mainForm').addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1490,12 +1493,12 @@
                     return;
                 }
 
+                const form = this;
                 const formSubmitBtn = document.getElementById('formSubmitBtn');
                 formSubmitBtn.disabled = true;
                 formSubmitBtn.textContent = 'Submitting...';
 
-                // Show modal based on ACE status
-                setTimeout(() => {
+                const finish = () => {
                     if (aceRegistered.value === 'yes') {
                         openModal('aceRegisteredFlowModal');
                     } else {
@@ -1503,17 +1506,28 @@
                     }
                     formSubmitBtn.disabled = false;
                     formSubmitBtn.textContent = 'See My Refund Estimate';
-                }, 500);
+                    form.reset();
+                    document.getElementById('aceMessage').style.display = 'none';
+                };
 
-                // Submit to Formspree in background
-                const formData = new FormData(this);
-                fetch(this.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }).catch(error => console.log('Form submitted'));
+                // Send lead to Google Sheet / email handler.
+                // no-cors: the Apps Script does the work server-side (sheet + emails);
+                // the browser can't read the response, so we proceed once the request is sent.
+                if (LEAD_ENDPOINT.indexOf('http') === 0) {
+                    fetch(LEAD_ENDPOINT, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: new URLSearchParams(new FormData(form))
+                    }).then(finish).catch(finish);
+                } else {
+                    // Endpoint not configured yet — still show the confirmation
+                    finish();
+                }
+
+                // Analytics conversion event (fires if gtag is present)
+                if (typeof gtag === 'function') {
+                    gtag('event', 'generate_lead', { ace_registered: aceRegistered.value });
+                }
             });
 
             // Wire up every CTA button (except the form's submit and modal buttons) to scroll to the form.
