@@ -251,38 +251,28 @@
 
         @media (min-width: 1024px) {
             .hero-content {
-                grid-template-columns: 1.2fr 1fr;
+                grid-template-columns: 1.1fr 420px;
+                align-items: start;
             }
             .hero-text h1 {
                 font-size: 3.5rem;
             }
         }
 
-        /* ===== STICKY FORM (Desktop) ===== */
-        .form-sidebar {
-            display: none;
-            position: fixed;
-            right: 0;
-            top: 60px;
-            width: 380px;
-            max-height: calc(100vh - 60px);
+        /* ===== FORM CARD (in-flow, always visible) ===== */
+        .form-card {
             background: var(--white);
-            border-left: 1px solid var(--border);
-            overflow-y: auto;
+            border-radius: 12px;
             padding: 2rem 1.5rem;
-            z-index: 999;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            color: var(--text-dark);
+            scroll-margin-top: 80px;
         }
 
-        .form-sidebar.visible {
-            display: block;
-        }
-
-        @media (min-width: 1400px) {
-            .form-sidebar {
-                display: block;
-            }
-            main {
-                margin-right: 380px;
+        @media (min-width: 1024px) {
+            .form-card {
+                position: sticky;
+                top: 80px;
             }
         }
 
@@ -1018,62 +1008,6 @@
         </div>
     </header>
 
-    <!-- STICKY FORM (Desktop) -->
-    <aside class="form-sidebar">
-        <div class="form-wrapper">
-            <h3>Get Your Audit Assessment</h3>
-            <p>Free analysis. No credit card needed.</p>
-            <div class="form-status" id="formStatus"></div>
-            <form id="mainForm" action="https://formspree.io/f/mwpegdyq" method="POST">
-                <div class="form-group">
-                    <label>Company Name</label>
-                    <input type="text" name="company" required placeholder="Your company name">
-                </div>
-
-                <div class="form-group">
-                    <label>Work Email</label>
-                    <input type="email" name="email" required placeholder="your@company.com">
-                </div>
-
-                <div class="form-group">
-                    <label>Annual Tariff Spend</label>
-                    <select name="tariffSpend" required>
-                        <option value="">Select range</option>
-                        <option value="<100k">Less than $100K</option>
-                        <option value="100k-500k">$100K – $500K</option>
-                        <option value="500k-1m">$500K – $1M</option>
-                        <option value="1m-5m">$1M – $5M</option>
-                        <option value=">5m">More than $5M</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Are you ACE registered?</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="aceYes" name="aceRegistered" value="yes" required>
-                            <label for="aceYes">Yes</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="aceNo" name="aceRegistered" value="no" required>
-                            <label for="aceNo">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group ace-message" id="aceMessage" style="display: none;">
-                    <strong>It's okay, we'll guide you through it.</strong>
-                </div>
-
-                <button type="submit" class="form-submit" id="formSubmitBtn">See My Refund Estimate</button>
-
-                <div class="form-trust">
-                    48-hour audit • Held in escrow • Full reconciliation
-                </div>
-            </form>
-        </div>
-    </aside>
-
     <main>
         <!-- HERO SECTION -->
         <section class="hero">
@@ -1095,16 +1029,58 @@
                         </ul>
                     </div>
                 </div>
-                <div class="trust-badges">
-                    <div class="badge">
-                        <div class="badge-logo">🏦</div>
-                        <h4>BDO Escrow-Backed</h4>
-                        <p>Transparent pricing</p>
-                    </div>
-                    <div class="badge">
-                        <div class="badge-logo">✓</div>
-                        <h4>48-Hour Audit</h4>
-                        <p>Guaranteed</p>
+                <div class="form-card" id="auditForm">
+                    <div class="form-wrapper">
+                        <h3>Get Your Audit Assessment</h3>
+                        <p>Free analysis. No credit card needed.</p>
+                        <div class="form-status" id="formStatus"></div>
+                        <form id="mainForm" action="https://formspree.io/f/mwpegdyq" method="POST">
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" name="company" required placeholder="Your company name">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Work Email</label>
+                                <input type="email" name="email" required placeholder="your@company.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Annual Tariff Spend</label>
+                                <select name="tariffSpend" required>
+                                    <option value="">Select range</option>
+                                    <option value="<100k">Less than $100K</option>
+                                    <option value="100k-500k">$100K – $500K</option>
+                                    <option value="500k-1m">$500K – $1M</option>
+                                    <option value="1m-5m">$1M – $5M</option>
+                                    <option value=">5m">More than $5M</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Are you ACE registered?</label>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="aceYes" name="aceRegistered" value="yes" required>
+                                        <label for="aceYes">Yes</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="aceNo" name="aceRegistered" value="no" required>
+                                        <label for="aceNo">No</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group ace-message" id="aceMessage" style="display: none;">
+                                <strong>It's okay, we'll guide you through it.</strong>
+                            </div>
+
+                            <button type="submit" class="form-submit" id="formSubmitBtn">See My Refund Estimate</button>
+
+                            <div class="form-trust">
+                                48-hour audit • Held in escrow • Full reconciliation
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -1412,7 +1388,6 @@
                 <p>See what your company is owed. Free audit assessment, no commitment.</p>
                 <div class="final-cta-buttons">
                     <button class="cta-button cta-primary">Get Your Audit Now →</button>
-                    <button class="cta-button cta-secondary">Schedule a Call</button>
                 </div>
             </div>
         </section>
@@ -1541,15 +1516,15 @@
                 }).catch(error => console.log('Form submitted'));
             });
 
-            // Wire up all CTA buttons to scroll to form
-            document.querySelectorAll('.cta-button.cta-primary').forEach(button => {
-                if (button.textContent.includes('Get Your') || button.textContent.includes('Start Your') ||
-                    button.textContent.includes('Check My') || button.textContent.includes('Get Your Audit')) {
+            // Wire up every CTA button (except the form's submit and modal buttons) to scroll to the form
+            document.querySelectorAll('.cta-button').forEach(button => {
+                const isSubmit = button.type === 'submit';
+                const hasInlineHandler = button.hasAttribute('onclick');
+                const insideModal = button.closest('.modal') !== null;
+                if (!isSubmit && !hasInlineHandler && !insideModal) {
                     button.addEventListener('click', function(e) {
-                        if (!this.form) {
-                            e.preventDefault();
-                            scrollToForm();
-                        }
+                        e.preventDefault();
+                        scrollToForm();
                     });
                 }
             });
@@ -1572,13 +1547,15 @@
             });
         });
 
-        // Scroll to form
+        // Scroll to form and focus first field
         function scrollToForm() {
-            const formSidebar = document.querySelector('.form-sidebar');
-            if (formSidebar) {
-                formSidebar.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-                document.getElementById('mainForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const card = document.getElementById('auditForm');
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const firstInput = card.querySelector('input[name="company"]');
+                if (firstInput) {
+                    setTimeout(() => firstInput.focus({ preventScroll: true }), 600);
+                }
             }
         }
 
