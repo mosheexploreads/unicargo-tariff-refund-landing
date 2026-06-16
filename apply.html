@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claim Your Tariff Refund - TariffBack</title>
+    <title>Claim Your IEEPA Tariff Refund - TariffBack</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -20,858 +20,1106 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background: var(--bg-light);
+            background-color: var(--white);
         }
 
-        /* HEADER */
+        /* ===== HEADER ===== */
         header {
-            background: var(--secondary);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
             padding: 1rem 2rem;
         }
-        .header-inner {
-            max-width: 1100px;
+        .header-content {
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--white); text-decoration: none; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--secondary); }
         .logo span { color: var(--primary); }
-        .header-trust { font-size: 0.82rem; color: rgba(255,255,255,0.7); }
-        .header-trust b { color: var(--primary); }
-
-        /* HERO STRIP */
-        .hero-strip {
-            background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%);
-            padding: 2.5rem 2rem;
-            text-align: center;
+        nav { display: none; }
+        .header-cta {
+            background: var(--primary);
             color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
         }
-        .hero-strip h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-        .hero-strip p { font-size: 1.05rem; opacity: 0.9; }
+        .header-cta:hover { background: var(--primary-dark); }
+        @media (min-width: 768px) {
+            nav { display: block; }
+            nav a { margin-right: 2rem; text-decoration: none; color: var(--text-dark); font-size: 0.95rem; transition: color 0.3s; }
+            nav a:hover { color: var(--primary); }
+        }
 
-        /* MAIN LAYOUT */
-        .main-wrap {
-            max-width: 900px;
+        /* ===== HERO ===== */
+        .hero {
+            margin-top: 60px;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -50%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0,191,179,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .hero-content {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 2.5rem 1.5rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-text h1 { font-size: 2.5rem; line-height: 1.2; margin-bottom: 1rem; font-weight: 700; }
+        .hero-text p { font-size: 1.25rem; opacity: 0.95; margin-bottom: 2rem; font-weight: 300; }
+        .hero-cta-group { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
+        .cta-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .cta-primary { background: var(--primary); color: var(--secondary); }
+        .cta-primary:hover { background: #00A399; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,191,179,0.3); }
+        .cta-secondary { background: transparent; color: var(--white); border: 2px solid var(--primary); }
+        .cta-secondary:hover { background: rgba(0,191,179,0.1); }
+        .escrow-info {
+            background: rgba(0,191,179,0.15);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+        }
+        .escrow-info h3 { margin-bottom: 0.75rem; font-size: 0.95rem; font-weight: 600; }
+        .escrow-info ul { list-style: none; font-size: 0.9rem; }
+        .escrow-info li { margin: 0.5rem 0; padding-left: 1.5rem; position: relative; }
+        .escrow-info li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+        @media (min-width: 1024px) {
+            .hero-content { grid-template-columns: 1.1fr 460px; align-items: start; }
+            .hero-text h1 { font-size: 3.5rem; }
         }
 
-        /* STEP INDICATOR */
-        .steps {
+        /* ===== PAYMENT CARD (hero right column) ===== */
+        .payment-hero-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.75rem 1.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            color: var(--text-dark);
+            scroll-margin-top: 80px;
+        }
+        @media (min-width: 1024px) {
+            .payment-hero-card { position: sticky; top: 80px; }
+        }
+
+        /* Step indicator */
+        .pay-steps {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
         }
-        .step-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.4rem;
-        }
-        .step-circle {
-            width: 36px; height: 36px;
+        .ps-item { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+        .ps-circle {
+            width: 30px; height: 30px;
             border-radius: 50%;
             background: var(--border);
             color: var(--text-light);
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             display: flex; align-items: center; justify-content: center;
             transition: all 0.3s;
         }
-        .step-circle.active { background: var(--primary); color: var(--secondary); }
-        .step-circle.done { background: var(--accent); color: var(--secondary); }
-        .step-label { font-size: 0.75rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-        .step-label.active { color: var(--secondary); }
-        .step-line { width: 60px; height: 2px; background: var(--border); margin-bottom: 1.2rem; }
-        .step-line.done { background: var(--accent); }
+        .ps-circle.active { background: var(--primary); color: var(--secondary); }
+        .ps-circle.done { background: var(--accent); color: var(--secondary); font-size: 0.7rem; }
+        .ps-label { font-size: 0.65rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .ps-label.active { color: var(--secondary); }
+        .ps-line { width: 36px; height: 2px; background: var(--border); margin-bottom: 1rem; transition: background 0.3s; }
+        .ps-line.done { background: var(--accent); }
 
-        @media (max-width: 480px) { .step-line { width: 30px; } }
+        .pay-card-title { font-size: 1rem; font-weight: 700; color: var(--secondary); margin-bottom: 0.25rem; }
+        .pay-card-sub { font-size: 0.8rem; color: var(--text-light); margin-bottom: 1.25rem; }
 
-        /* CARD */
-        .card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-            margin-bottom: 1.5rem;
-        }
-        .card h2 {
-            color: var(--secondary);
-            font-size: 1.3rem;
-            margin-bottom: 0.4rem;
-        }
-        .card-sub { font-size: 0.9rem; color: var(--text-light); margin-bottom: 1.75rem; }
-
-        /* ESTIMATOR */
-        .est-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        @media (max-width: 540px) { .est-row { grid-template-columns: 1fr; } }
-
-        .field label {
-            display: block;
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 0.45rem;
-        }
-        .field input, .field select {
+        /* Fields inside hero card */
+        .ph-field { margin-bottom: 1rem; }
+        .ph-field label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+        .ph-field input, .ph-field select {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.65rem 0.75rem;
             border: 1.5px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.95rem;
+            border-radius: 5px;
+            font-size: 0.88rem;
             font-family: inherit;
             color: var(--text-dark);
-            background: var(--white);
             transition: border-color 0.2s;
         }
-        .field input:focus, .field select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,191,179,0.12);
-        }
+        .ph-field input:focus, .ph-field select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,191,179,0.1); }
+        .ph-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 
-        .btn-primary {
+        .ph-btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-top: 0.25rem;
+        }
+        .ph-btn:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 5px 18px rgba(0,191,179,0.3); }
+        .ph-btn.dark { background: var(--secondary); color: var(--white); }
+        .ph-btn.dark:hover { background: #0F2942; }
+
+        /* Tier result inside hero card */
+        .tier-result {
+            display: none;
+            margin-top: 1rem;
+            border: 1.5px solid var(--primary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .tier-result.visible { display: block; }
+        .tier-header {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 0.85rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tier-header .est-label { font-size: 0.65rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.06em; }
+        .tier-header .est-amount { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .tier-badge { background: rgba(0,191,179,0.18); border: 1px solid var(--primary); color: var(--primary); border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; white-space: nowrap; }
+        .tier-body { padding: 0.85rem 1rem; }
+        .tier-fee-row { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+        .tier-fee-row:last-of-type { border-bottom: none; }
+        .tier-fee-row .tfl { color: var(--text-light); }
+        .tier-fee-row .tfv { font-weight: 700; color: var(--secondary); }
+        .tier-fee-row .tfv.hi { color: var(--primary); }
+
+        /* Payment form inside hero card */
+        .pay-step { display: none; }
+        .pay-step.visible { display: block; }
+
+        .escrow-notice-sm {
+            background: #F0FFFE;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.78rem;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+        .escrow-notice-sm b { color: var(--secondary); }
+
+        .fee-summary-sm {
+            background: var(--bg-light);
+            border-radius: 6px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 1rem;
+        }
+        .fee-row-sm { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 0.2rem 0; color: var(--text-light); }
+        .fee-row-sm.total { border-top: 1px solid var(--border); margin-top: 0.4rem; padding-top: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.9rem; }
+
+        .dummy-note { font-size: 0.72rem; color: var(--text-light); text-align: center; margin-bottom: 0.75rem; padding: 0.4rem; background: #FFF9E6; border-radius: 4px; border: 1px solid #F4B740; }
+
+        .card-group { border: 1.5px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 0.75rem; }
+        .card-row { display: flex; align-items: center; padding: 0.6rem 0.85rem; gap: 0.6rem; border-bottom: 1px solid var(--border); }
+        .card-row:last-child { border-bottom: none; }
+        .card-row input { border: none; outline: none; width: 100%; font-size: 0.88rem; font-family: inherit; background: transparent; }
+        .card-row-split { display: flex; }
+        .card-row-split .card-row { flex: 1; }
+        .card-row-split .card-row:first-child { border-right: 1px solid var(--border); }
+
+        .pay-btn-hero {
             width: 100%;
             padding: 0.9rem;
             background: var(--primary);
             color: var(--secondary);
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.25s;
-            margin-top: 0.5rem;
-        }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,191,179,0.3); }
-        .btn-primary:disabled { background: var(--border); color: var(--text-light); cursor: not-allowed; transform: none; box-shadow: none; }
-
-        /* RESULT / TIER CARD */
-        .tier-result {
-            display: none;
-            margin-top: 1.5rem;
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .tier-result.visible { display: block; }
-
-        .tier-header {
-            background: var(--secondary);
-            color: var(--white);
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .tier-header .est-label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.07em; }
-        .tier-header .est-amount { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-        .tier-header .tier-badge {
-            background: rgba(0,191,179,0.18);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            border-radius: 999px;
-            padding: 0.3rem 0.9rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            white-space: nowrap;
-        }
-
-        .tier-body { padding: 1.25rem 1.5rem; }
-        .tier-fee-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .tier-fee-row:last-of-type { border-bottom: none; }
-        .tier-fee-row .label { font-size: 0.9rem; color: var(--text-light); }
-        .tier-fee-row .value { font-weight: 700; color: var(--secondary); }
-        .tier-fee-row .value.highlight { color: var(--primary); font-size: 1.15rem; }
-
-        .proceed-btn {
-            width: 100%;
-            padding: 1rem;
-            background: var(--secondary);
-            color: var(--white);
-            border: none;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 1.25rem;
-            transition: all 0.25s;
-        }
-        .proceed-btn:hover { background: #0F2942; transform: translateY(-1px); }
-
-        /* DETAILS FORM */
-        .details-form { display: none; }
-        .details-form.visible { display: block; }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        @media (max-width: 540px) { .form-grid { grid-template-columns: 1fr; } }
-        .form-grid .field.full { grid-column: 1 / -1; }
-
-        /* PAYMENT CARD */
-        .payment-card { display: none; }
-        .payment-card.visible { display: block; }
-
-        .escrow-notice {
-            background: #F0FFFE;
-            border: 1.5px solid var(--primary);
-            border-radius: 8px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-start;
-        }
-        .escrow-notice .icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
-        .escrow-notice p { font-size: 0.88rem; color: var(--text-dark); line-height: 1.55; }
-        .escrow-notice p b { color: var(--secondary); }
-
-        .fee-summary {
-            background: var(--bg-light);
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-        .fee-summary-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            padding: 0.3rem 0;
-            color: var(--text-light);
-        }
-        .fee-summary-row.total {
-            border-top: 1px solid var(--border);
-            margin-top: 0.5rem;
-            padding-top: 0.75rem;
-            font-weight: 700;
-            color: var(--secondary);
-            font-size: 1.05rem;
-        }
-
-        /* Dummy card input styling */
-        .card-field-group {
-            border: 1.5px solid var(--border);
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-        .card-field-row {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            gap: 0.75rem;
-            border-bottom: 1px solid var(--border);
-        }
-        .card-field-row:last-child { border-bottom: none; }
-        .card-field-row .card-icon { font-size: 1.2rem; flex-shrink: 0; }
-        .card-field-row input {
-            border: none;
-            outline: none;
-            width: 100%;
             font-size: 0.95rem;
-            font-family: inherit;
-            background: transparent;
-        }
-        .card-field-row-split {
-            display: flex;
-        }
-        .card-field-row-split .card-field-row {
-            flex: 1;
-        }
-        .card-field-row-split .card-field-row:first-child {
-            border-right: 1px solid var(--border);
-        }
-
-        .dummy-note {
-            font-size: 0.78rem;
-            color: var(--text-light);
-            text-align: center;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: #FFF9E6;
-            border-radius: 4px;
-            border: 1px solid #F4B740;
-        }
-
-        .pay-btn {
-            width: 100%;
-            padding: 1.1rem;
-            background: var(--primary);
-            color: var(--secondary);
-            border: none;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 1.05rem;
             cursor: pointer;
             transition: all 0.25s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
-        .pay-btn:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,191,179,0.3); }
+        .pay-btn-hero:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-        .security-badges {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
+        .sec-badges { display: flex; justify-content: center; gap: 1rem; margin-top: 0.75rem; flex-wrap: wrap; }
+        .sec-b { font-size: 0.7rem; color: var(--text-light); }
+
+        /* Success inside card */
+        .success-inner { text-align: center; padding: 0.5rem 0; }
+        .success-inner .s-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+        .success-inner h3 { color: var(--secondary); font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .success-inner p { font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem; }
+        .success-amt { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 0.75rem 0 0.25rem; }
+        .success-sub { font-size: 0.75rem; color: var(--text-light); margin-bottom: 1rem; }
+        .next-steps-sm { background: var(--bg-light); border-radius: 6px; padding: 1rem; text-align: left; margin-top: 1rem; }
+        .next-steps-sm h5 { color: var(--secondary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+        .ns-item { display: flex; gap: 0.6rem; margin-bottom: 0.6rem; align-items: flex-start; }
+        .ns-num { background: var(--primary); color: var(--secondary); font-weight: 700; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .ns-item p { font-size: 0.78rem; color: var(--text-light); line-height: 1.4; }
+
+        /* ===== ESCROW SECTION ===== */
+        .escrow-section { padding: 4rem 2rem; background: var(--white); }
+        .escrow-content { max-width: 1400px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--secondary); }
+        .section-header p { font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin: 0 auto; }
+        .escrow-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .step-card { background: var(--bg-light); padding: 2rem; border-radius: 8px; text-align: center; transition: all 0.3s; }
+        .step-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .step-card .step-number { background: var(--primary); color: var(--white); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: 700; font-size: 1.5rem; }
+        .step-card h3 { margin-bottom: 0.5rem; color: var(--secondary); }
+        .step-card p { color: var(--text-light); font-size: 0.95rem; }
+        .escrow-callout { background: var(--secondary); color: var(--white); padding: 2rem; border-radius: 8px; border-left: 4px solid var(--primary); margin-top: 2rem; }
+        .escrow-callout h4 { margin-bottom: 0.5rem; }
+        .escrow-callout a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+        /* ===== TIER TABLE SECTION ===== */
+        .tier-section { padding: 3rem 2rem; background: var(--bg-light); }
+        .tier-section-inner { max-width: 800px; margin: 0 auto; }
+        .tier-table-full { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+        .tier-table-full th { background: var(--secondary); color: var(--white); padding: 0.85rem 1.25rem; text-align: left; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; }
+        .tier-table-full td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; background: var(--white); }
+        .tier-table-full tr:last-child td { border-bottom: none; }
+        .tier-table-full .fee-col { font-weight: 700; color: var(--primary); font-size: 1.05rem; }
+        .tier-note { text-align: center; margin-top: 1.25rem; font-size: 0.82rem; color: var(--text-light); }
+
+        /* ===== STATS ===== */
+        .stats-section { padding: 3rem 2rem; background: var(--bg-light); }
+        .stats-content { max-width: 1400px; margin: 0 auto; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .stat-card { background: var(--white); padding: 2rem; border-radius: 8px; border-left: 4px solid var(--primary); text-align: center; }
+        .stat-value { font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+        .stat-label { color: var(--text-light); font-size: 0.95rem; }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works { padding: 4rem 2rem; background: var(--white); }
+        .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .how-card { padding: 2rem; background: var(--bg-light); border-radius: 8px; text-align: center; }
+        .how-card .number { display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: var(--primary); color: var(--white); border-radius: 50%; font-weight: 700; font-size: 1.8rem; margin: 0 auto 1rem; }
+        .how-card h3 { color: var(--secondary); margin-bottom: 0.75rem; }
+        .how-card p { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; }
+
+        /* ===== MIDDLE CTA ===== */
+        .middle-cta { padding: 4rem 2rem; background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%); color: var(--white); text-align: center; }
+        .middle-cta-content { max-width: 700px; margin: 0 auto; }
+        .middle-cta h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+        .middle-cta p { font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.95; }
+        .middle-cta-subtext { margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.85; }
+
+        /* ===== WHAT YOU'LL GET ===== */
+        .what-youll-get { padding: 4rem 2rem; background: var(--white); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .feature-card { padding: 2rem; background: var(--bg-light); border-radius: 8px; border-top: 4px solid var(--primary); }
+        .feature-card .number { display: inline-block; width: 40px; height: 40px; background: var(--primary); color: var(--white); border-radius: 50%; text-align: center; line-height: 40px; font-weight: 700; margin-bottom: 1rem; font-size: 1.2rem; }
+        .feature-card h3 { color: var(--secondary); margin-bottom: 0.75rem; font-size: 1.05rem; }
+        .feature-card p { color: var(--text-light); font-size: 0.95rem; }
+
+        /* ===== SAMPLE REPORT / DASHBOARD ===== */
+        .sample-report { padding: 4rem 2rem; background: var(--bg-light); }
+        .sample-content { max-width: 1400px; margin: 0 auto; }
+        .dash { background: var(--white); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 2rem; text-align: left; box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+        .dash-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.25rem; border-bottom: 1px solid var(--border); background: #FBFCFE; flex-wrap: wrap; }
+        .dash-dots { display: flex; gap: 0.4rem; }
+        .dash-dots span { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+        .dot-r { background: #F4B740; }
+        .dot-y { background: #2BC4B6; }
+        .dot-g { background: #2BC4B6; }
+        .dash-path { font-family: 'Courier New', monospace; font-size: 0.8rem; letter-spacing: 0.06em; color: var(--text-light); font-weight: 700; margin-left: 0.5rem; }
+        .dash-path b { color: var(--secondary); }
+        .dash-reconciled { margin-left: auto; font-family: 'Courier New', monospace; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--text-light); font-weight: 700; }
+        .dash-reconciled .tie { color: var(--primary); }
+        .dash-body { padding: 1.5rem; }
+        .dash-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        .dash-card { border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1rem 0.85rem; position: relative; overflow: hidden; }
+        .dash-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+        .dash-card.c-teal::before   { background: #2BC4B6; }
+        .dash-card.c-lime::before   { background: #A4CE4E; }
+        .dash-card.c-dark::before   { background: #1A3A52; }
+        .dash-card.c-purple::before { background: #B9A7E6; }
+        .dash-card .k-label { font-size: 0.62rem; letter-spacing: 0.09em; font-weight: 700; color: var(--text-light); text-transform: uppercase; margin-bottom: 0.5rem; }
+        .dash-card .k-value { font-size: 1.7rem; font-weight: 800; color: var(--secondary); line-height: 1; }
+        .dash-card .k-value sup, .dash-card .k-value .k-sub { font-size: 0.85rem; font-weight: 700; color: var(--text-light); vertical-align: baseline; }
+        .dash-card .k-desc { font-size: 0.72rem; color: var(--text-light); margin-top: 0.5rem; line-height: 1.45; min-height: 2.6em; }
+        .k-bars { display: flex; align-items: flex-end; gap: 4px; height: 26px; margin-top: 0.85rem; }
+        .k-bars i { flex: 1; border-radius: 2px 2px 0 0; display: block; }
+        .c-teal .k-bars i { background: #2BC4B6; }
+        .c-lime .k-bars i { background: #A4CE4E; }
+        .c-dark .k-bars i { background: #1A3A52; }
+        .c-dark .k-bars i.muted { background: #D5DCE3; }
+        .c-purple .k-bars i { background: #B9A7E6; }
+        .dash-split-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin: 1.75rem 0 0.85rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .dash-split-head h4 { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--secondary); text-transform: uppercase; }
+        .dash-split-head .meta { font-family: 'Courier New', monospace; font-size: 0.72rem; color: var(--text-light); letter-spacing: 0.05em; }
+        .dash-split-head .meta b { color: var(--secondary); }
+        .dash-splitbar { background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 70%); border-radius: 8px; padding: 1.4rem 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .pill { background: rgba(43,196,182,0.18); border: 1px solid var(--primary); color: var(--primary); border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; white-space: nowrap; }
+        .dash-splitbar .amt { color: #fff; font-size: 1.5rem; font-weight: 800; }
+        .dash-splitbar .pct { color: var(--primary); font-weight: 700; }
+        .dash-disclaimer { font-size: 0.75rem; color: var(--text-light); margin-top: 1rem; text-align: center; }
+        @media (max-width: 900px) { .dash-cards { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) {
+            .dash-cards { grid-template-columns: 1fr; }
+            .dash-card .k-desc { min-height: 0; }
+            .dash-path { font-size: 0.68rem; }
+            .dash-reconciled { display: none; }
+            .dash-splitbar .amt { font-size: 1.25rem; }
         }
-        .sec-badge { font-size: 0.78rem; color: var(--text-light); display: flex; align-items: center; gap: 0.3rem; }
 
-        /* SUCCESS */
-        .success-screen { display: none; text-align: center; }
-        .success-screen.visible { display: block; }
-        .success-icon { font-size: 4rem; margin-bottom: 1rem; }
-        .success-screen h2 { color: var(--secondary); font-size: 1.6rem; margin-bottom: 0.75rem; }
-        .success-screen p { color: var(--text-light); font-size: 1rem; margin-bottom: 0.5rem; }
-        .success-amount { font-size: 2rem; font-weight: 800; color: var(--primary); margin: 1rem 0; }
-        .next-steps {
-            background: var(--bg-light);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            text-align: left;
-        }
-        .next-steps h4 { color: var(--secondary); margin-bottom: 1rem; }
-        .next-step-item {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            align-items: flex-start;
-        }
-        .next-step-item .ns-num {
-            background: var(--primary);
-            color: var(--secondary);
-            font-weight: 700;
-            border-radius: 50%;
-            width: 26px; height: 26px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem;
-            flex-shrink: 0;
-            margin-top: 0.1rem;
-        }
-        .next-step-item p { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+        /* ===== URGENCY ===== */
+        .urgency-section { padding: 4rem 2rem; background: var(--white); }
+        .urgency-card { background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%); color: var(--white); padding: 3rem 2rem; border-radius: 8px; text-align: center; border-left: 4px solid var(--accent); margin-top: 2rem; }
+        .urgency-number { font-size: 4rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem; }
+        .urgency-label { font-size: 1.1rem; margin-bottom: 1.5rem; opacity: 0.95; }
+        .urgency-card p { margin: 1rem 0; opacity: 0.9; }
 
-        /* SIDEBAR / TRUST */
-        .layout { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-        @media (min-width: 860px) { .layout { grid-template-columns: 1fr 300px; align-items: start; } }
+        /* ===== TRUST ===== */
+        .trust-section { padding: 4rem 2rem; background: var(--bg-light); }
+        .trust-content { max-width: 1400px; margin: 0 auto; }
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .trust-card { background: var(--white); padding: 2rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .trust-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .trust-card h4 { color: var(--secondary); margin-bottom: 0.75rem; }
+        .trust-card p { color: var(--text-light); font-size: 0.9rem; line-height: 1.5; }
 
-        .sidebar-card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-        }
-        .sidebar-card h4 { color: var(--secondary); font-size: 0.9rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.07em; }
+        /* ===== FAQ ===== */
+        .faq-section { padding: 4rem 2rem; background: var(--white); }
+        .faq-content { max-width: 900px; margin: 0 auto; }
+        .faq-item { margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question { display: flex; justify-content: space-between; align-items: flex-start; cursor: pointer; user-select: none; }
+        .faq-question h4 { color: var(--secondary); margin-right: 1rem; flex: 1; }
+        .faq-toggle { color: var(--primary); font-weight: 700; font-size: 1.3rem; flex-shrink: 0; }
+        .faq-answer { display: none; margin-top: 1rem; color: var(--text-light); line-height: 1.7; }
+        .faq-answer.visible { display: block; }
 
-        .tier-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        .tier-table th { background: var(--bg-light); color: var(--text-light); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.5rem 0.75rem; text-align: left; }
-        .tier-table td { padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--border); color: var(--text-dark); }
-        .tier-table tr:last-child td { border-bottom: none; }
-        .tier-table tr.active-tier td { background: #F0FFFE; font-weight: 700; color: var(--secondary); }
-        .tier-table .fee-cell { font-weight: 700; color: var(--primary); }
+        /* ===== FINAL CTA ===== */
+        .final-cta { padding: 4rem 2rem; background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%); color: var(--white); text-align: center; }
+        .final-cta-content { max-width: 700px; margin: 0 auto; }
+        .final-cta h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .final-cta p { font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.95; }
+        .final-cta-buttons { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+        @media (min-width: 768px) { .final-cta-buttons { flex-direction: row; justify-content: center; } }
 
-        .trust-item {
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-        .trust-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .trust-item .ti-icon { font-size: 1.3rem; flex-shrink: 0; }
-        .trust-item h5 { font-size: 0.85rem; color: var(--secondary); margin-bottom: 0.2rem; }
-        .trust-item p { font-size: 0.8rem; color: var(--text-light); line-height: 1.45; }
+        /* ===== FOOTER ===== */
+        footer { padding: 3rem 2rem; background: var(--secondary); color: var(--white); text-align: center; }
+        .footer-content { max-width: 1400px; margin: 0 auto; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; font-size: 0.9rem; }
+        .footer-links a { color: var(--primary); text-decoration: none; }
+        .footer-links a:hover { text-decoration: underline; }
+        .footer-copyright { font-size: 0.85rem; opacity: 0.8; }
 
-        footer {
-            background: var(--secondary);
-            color: var(--white);
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.82rem;
-            opacity: 0.9;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2rem; }
+            .hero-text p { font-size: 1rem; }
+            .section-header h2 { font-size: 1.5rem; }
+            .final-cta h2 { font-size: 1.75rem; }
+            .trust-grid { grid-template-columns: 1fr; }
+            .ph-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="header-inner">
-        <a href="/" class="logo">Tariff<span>Back</span></a>
-        <div class="header-trust">🔒 Payment held in <b>BDO Escrow</b> — released only when your refund arrives</div>
-    </div>
-</header>
-
-<div class="hero-strip">
-    <h1>Claim Your IEEPA Tariff Refund</h1>
-    <p>Estimate your refund, lock in your claim, and get paid back within 60–90 days.</p>
-</div>
-
-<div class="main-wrap">
-
-    <!-- STEP INDICATOR -->
-    <div class="steps">
-        <div class="step-item">
-            <div class="step-circle active" id="stepCircle1">1</div>
-            <div class="step-label active" id="stepLabel1">Estimate</div>
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <div class="logo">Tariff<span>Back</span></div>
+            <nav>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#what-youll-get">What You'll Get</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+            <button class="header-cta">Claim My Refund</button>
         </div>
-        <div class="step-line" id="stepLine1"></div>
-        <div class="step-item">
-            <div class="step-circle" id="stepCircle2">2</div>
-            <div class="step-label" id="stepLabel2">Details</div>
-        </div>
-        <div class="step-line" id="stepLine2"></div>
-        <div class="step-item">
-            <div class="step-circle" id="stepCircle3">3</div>
-            <div class="step-label" id="stepLabel3">Payment</div>
-        </div>
-        <div class="step-line" id="stepLine3"></div>
-        <div class="step-item">
-            <div class="step-circle" id="stepCircle4">4</div>
-            <div class="step-label" id="stepLabel4">Confirmed</div>
-        </div>
-    </div>
+    </header>
 
-    <div class="layout">
-        <!-- MAIN COLUMN -->
-        <div>
-
-            <!-- STEP 1: ESTIMATOR -->
-            <div class="card" id="step1Card">
-                <h2>What's your estimated refund?</h2>
-                <p class="card-sub">Enter your primary sourcing country and total import value for Apr 2025 – Feb 2026.</p>
-
-                <div class="est-row">
-                    <div class="field">
-                        <label>Country of Origin</label>
-                        <select id="country">
-                            <option value="">Select country</option>
-                            <option value="China">China</option>
-                            <option value="Vietnam">Vietnam</option>
-                            <option value="India">India</option>
-                            <option value="Taiwan">Taiwan</option>
-                            <option value="Bangladesh">Bangladesh</option>
-                            <option value="Cambodia">Cambodia</option>
-                            <option value="Indonesia">Indonesia</option>
-                            <option value="Thailand">Thailand</option>
-                            <option value="Japan">Japan</option>
-                            <option value="South Korea">South Korea</option>
-                            <option value="EU">European Union</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="Brazil">Brazil</option>
-                            <option value="Mexico">Mexico</option>
-                            <option value="Other">Other country</option>
-                        </select>
+    <main>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Don't Leave $$$ on the Table</h1>
+                    <p>Your company is owed an IEEPA tariff refund. See your exact amount in 48 hours.</p>
+                    <div class="hero-cta-group">
+                        <button class="cta-button cta-primary" onclick="scrollToCard()">Claim Your Refund Now</button>
                     </div>
-                    <div class="field">
-                        <label>Total Import Value (USD)</label>
-                        <input type="text" id="importValue" placeholder="e.g. $500,000" inputmode="numeric">
+                    <div class="escrow-info">
+                        <h3>Transparent Pricing · BDO Escrow · Zero Risk</h3>
+                        <ul>
+                            <li>Refunds up to $20K — flat $1,500 filing fee</li>
+                            <li>Refunds $20K–$100K — flat $5,000 filing fee</li>
+                            <li>Above $100K — 5% or 3% of your refund</li>
+                            <li>Your fee is held in BDO escrow — released only when your refund arrives</li>
+                        </ul>
                     </div>
                 </div>
 
-                <button class="btn-primary" onclick="runEstimate()">Calculate My Refund →</button>
+                <!-- PAYMENT FLOW CARD -->
+                <div class="payment-hero-card" id="payCard">
 
-                <!-- TIER RESULT -->
-                <div class="tier-result" id="tierResult">
-                    <div class="tier-header">
-                        <div>
-                            <div class="est-label">Estimated IEEPA Refund</div>
-                            <div class="est-amount" id="estAmount">—</div>
-                        </div>
-                        <div class="tier-badge" id="tierBadge">TIER —</div>
+                    <!-- Step indicator -->
+                    <div class="pay-steps">
+                        <div class="ps-item"><div class="ps-circle active" id="pc1">1</div><div class="ps-label active" id="pl1">Estimate</div></div>
+                        <div class="ps-line" id="pline1"></div>
+                        <div class="ps-item"><div class="ps-circle" id="pc2">2</div><div class="ps-label" id="pl2">Details</div></div>
+                        <div class="ps-line" id="pline2"></div>
+                        <div class="ps-item"><div class="ps-circle" id="pc3">3</div><div class="ps-label" id="pl3">Pay</div></div>
+                        <div class="ps-line" id="pline3"></div>
+                        <div class="ps-item"><div class="ps-circle" id="pc4">4</div><div class="ps-label" id="pl4">Done</div></div>
                     </div>
-                    <div class="tier-body">
-                        <div class="tier-fee-row">
-                            <span class="label">Refund range</span>
-                            <span class="value" id="refundRange">—</span>
+
+                    <!-- STEP 1: Estimate -->
+                    <div class="pay-step visible" id="ps1">
+                        <div class="pay-card-title">Calculate Your Refund</div>
+                        <div class="pay-card-sub">Enter your sourcing country and import value.</div>
+                        <div class="ph-field">
+                            <label>Country of Origin</label>
+                            <select id="country">
+                                <option value="">Select country</option>
+                                <option value="China">China</option>
+                                <option value="Vietnam">Vietnam</option>
+                                <option value="India">India</option>
+                                <option value="Taiwan">Taiwan</option>
+                                <option value="Bangladesh">Bangladesh</option>
+                                <option value="Cambodia">Cambodia</option>
+                                <option value="Indonesia">Indonesia</option>
+                                <option value="Thailand">Thailand</option>
+                                <option value="Japan">Japan</option>
+                                <option value="South Korea">South Korea</option>
+                                <option value="EU">European Union</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="Brazil">Brazil</option>
+                                <option value="Mexico">Mexico</option>
+                                <option value="Other">Other country</option>
+                            </select>
                         </div>
-                        <div class="tier-fee-row">
-                            <span class="label">TariffBack filing fee</span>
-                            <span class="value highlight" id="filingFee">—</span>
+                        <div class="ph-field">
+                            <label>Total Import Value (Apr 2025 – Feb 2026)</label>
+                            <input type="text" id="importValue" placeholder="e.g. $500,000" inputmode="numeric">
                         </div>
-                        <div class="tier-fee-row">
-                            <span class="label">Fee held in BDO escrow until refund arrives</span>
-                            <span class="value">✓ Yes</span>
+                        <button class="ph-btn" onclick="runEstimate()">Calculate My Refund →</button>
+
+                        <div class="tier-result" id="tierResult">
+                            <div class="tier-header">
+                                <div>
+                                    <div class="est-label">Estimated Refund</div>
+                                    <div class="est-amount" id="estAmount">—</div>
+                                </div>
+                                <div class="tier-badge" id="tierBadge">—</div>
+                            </div>
+                            <div class="tier-body">
+                                <div class="tier-fee-row"><span class="tfl">Refund range</span><span class="tfv" id="refundRange">—</span></div>
+                                <div class="tier-fee-row"><span class="tfl">Filing fee</span><span class="tfv hi" id="filingFee">—</span></div>
+                                <div class="tier-fee-row"><span class="tfl">Held in BDO escrow</span><span class="tfv">✓ Yes</span></div>
+                                <div class="tier-fee-row"><span class="tfl">You keep</span><span class="tfv" id="youKeep">—</span></div>
+                                <button class="ph-btn" style="margin-top:0.85rem;" onclick="goToDetails()">Proceed to Claim →</button>
+                            </div>
                         </div>
-                        <div class="tier-fee-row">
-                            <span class="label">You keep</span>
-                            <span class="value" id="youKeep">—</span>
-                        </div>
-                        <button class="proceed-btn" onclick="goToDetails()">Proceed to Claim →</button>
                     </div>
+
+                    <!-- STEP 2: Details -->
+                    <div class="pay-step" id="ps2">
+                        <div class="pay-card-title">Your Company Details</div>
+                        <div class="pay-card-sub">Needed for your CAPE filing and audit.</div>
+                        <div class="ph-row">
+                            <div class="ph-field"><label>Company Name</label><input type="text" id="companyName" placeholder="Company name"></div>
+                            <div class="ph-field"><label>Work Email</label><input type="email" id="workEmail" placeholder="you@company.com"></div>
+                        </div>
+                        <div class="ph-row">
+                            <div class="ph-field"><label>First Name</label><input type="text" id="firstName" placeholder="First name"></div>
+                            <div class="ph-field"><label>Last Name</label><input type="text" id="lastName" placeholder="Last name"></div>
+                        </div>
+                        <div class="ph-field">
+                            <label>ACE Registered?</label>
+                            <select id="aceStatus">
+                                <option value="">Select</option>
+                                <option value="yes">Yes — I have ACE access</option>
+                                <option value="no">No — I need help registering</option>
+                                <option value="unsure">Not sure</option>
+                            </select>
+                        </div>
+                        <button class="ph-btn" onclick="goToPayment()">Continue to Payment →</button>
+                    </div>
+
+                    <!-- STEP 3: Payment -->
+                    <div class="pay-step" id="ps3">
+                        <div class="pay-card-title">Secure Your Claim</div>
+                        <div class="escrow-notice-sm">🏦 Your payment of <b id="payNoticeAmt">—</b> goes into a <b>BDO-managed escrow account</b>. Released only when CBP processes your refund.</div>
+                        <div class="fee-summary-sm">
+                            <div class="fee-row-sm"><span>Estimated refund</span><span id="sumRefund">—</span></div>
+                            <div class="fee-row-sm"><span>Pricing tier</span><span id="sumTier">—</span></div>
+                            <div class="fee-row-sm total"><span>Total due today</span><span id="sumTotal">—</span></div>
+                        </div>
+                        <div class="dummy-note">⚠️ Test mode — no real charge will occur</div>
+                        <div class="ph-field"><label>Cardholder Name</label><input type="text" id="cardName" placeholder="Name on card"></div>
+                        <div class="card-group">
+                            <div class="card-row">💳 <input type="text" id="cardNumber" placeholder="Card number" maxlength="19" inputmode="numeric"></div>
+                            <div class="card-row-split">
+                                <div class="card-row"><input type="text" id="cardExpiry" placeholder="MM / YY" maxlength="7" inputmode="numeric"></div>
+                                <div class="card-row"><input type="text" id="cardCvc" placeholder="CVC" maxlength="4" inputmode="numeric"></div>
+                            </div>
+                        </div>
+                        <button class="pay-btn-hero" onclick="processPayment()">🔒 Pay <span id="payBtnAmt">—</span> — BDO Escrow</button>
+                        <div class="sec-badges">
+                            <span class="sec-b">🔒 SSL Encrypted</span>
+                            <span class="sec-b">🏦 BDO Escrow</span>
+                            <span class="sec-b">✓ No refund = full return</span>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Success -->
+                    <div class="pay-step" id="ps4">
+                        <div class="success-inner">
+                            <div class="s-icon">✅</div>
+                            <h3>Claim Secured!</h3>
+                            <div class="success-amt" id="successAmt">—</div>
+                            <div class="success-sub">held in BDO escrow · released when your refund arrives</div>
+                            <div class="next-steps-sm">
+                                <h5>What happens next</h5>
+                                <div class="ns-item"><div class="ns-num">1</div><p><strong>Check inbox</strong> — confirmation + claim reference sent now.</p></div>
+                                <div class="ns-item"><div class="ns-num">2</div><p><strong>Grant ACE access</strong> — 10-min guide in your email.</p></div>
+                                <div class="ns-item"><div class="ns-num">3</div><p><strong>Audit in 48 hrs</strong> — entry-by-entry breakdown, Phase 1 vs Phase 2.</p></div>
+                                <div class="ns-item"><div class="ns-num">4</div><p><strong>CAPE filed</strong> — CBP pays in 60–90 days. Then BDO releases our fee.</p></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+        </section>
 
-            <!-- STEP 2: COMPANY DETAILS -->
-            <div class="card details-form" id="step2Card">
-                <h2>Your company details</h2>
-                <p class="card-sub">We need this to prepare your CAPE filing and audit report.</p>
-                <div class="form-grid">
-                    <div class="field">
-                        <label>Company Name</label>
-                        <input type="text" id="companyName" placeholder="Your company name">
+        <!-- ESCROW / PRICING MODEL -->
+        <section class="escrow-section">
+            <div class="escrow-content">
+                <div class="section-header">
+                    <h2>Transparent Pricing. Held in Escrow.</h2>
+                    <p>You only pay based on what we recover — and even that sits in escrow with BDO until your money arrives.</p>
+                </div>
+                <div class="escrow-steps">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Lock In Your Claim</h3>
+                        <p>Use the estimator above to see your tier and filing fee. Pay it into BDO escrow to lock in your claim. No hidden fees.</p>
                     </div>
-                    <div class="field">
-                        <label>Work Email</label>
-                        <input type="email" id="workEmail" placeholder="you@company.com">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>We Run Your Audit</h3>
+                        <p>Full entry-by-entry refund breakdown delivered in 24–48 hours. We handle CAPE filing and CBP correspondence.</p>
                     </div>
-                    <div class="field">
-                        <label>First Name</label>
-                        <input type="text" id="firstName" placeholder="First name">
-                    </div>
-                    <div class="field">
-                        <label>Last Name</label>
-                        <input type="text" id="lastName" placeholder="Last name">
-                    </div>
-                    <div class="field full">
-                        <label>Job Title</label>
-                        <input type="text" id="jobTitle" placeholder="e.g. CFO, Controller, VP Finance">
-                    </div>
-                    <div class="field full">
-                        <label>Are you ACE registered?</label>
-                        <select id="aceStatus">
-                            <option value="">Select</option>
-                            <option value="yes">Yes — I have ACE access</option>
-                            <option value="no">No — I need help registering</option>
-                            <option value="unsure">Not sure</option>
-                        </select>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>You Get Paid</h3>
+                        <p>Your refund arrives in 60–90 days. Only then does BDO release our fee. You keep 97–95% of everything we recover.</p>
                     </div>
                 </div>
-                <button class="btn-primary" onclick="goToPayment()">Continue to Payment →</button>
-            </div>
-
-            <!-- STEP 3: PAYMENT -->
-            <div class="card payment-card" id="step3Card">
-                <h2>Secure your claim</h2>
-                <p class="card-sub">Your filing fee is held in BDO escrow and released only when your CBP refund arrives.</p>
-
-                <div class="escrow-notice">
-                    <div class="icon">🏦</div>
-                    <p>Your payment of <b id="payNoticeAmt">—</b> goes directly into a <b>BDO-managed escrow account</b>. TariffBack cannot access these funds until CBP processes your refund. If no refund is issued, your fee is returned in full.</p>
-                </div>
-
-                <div class="fee-summary">
-                    <div class="fee-summary-row"><span>Estimated refund</span><span id="sumRefund">—</span></div>
-                    <div class="fee-summary-row"><span>Tier</span><span id="sumTier">—</span></div>
-                    <div class="fee-summary-row"><span>Filing fee rate</span><span id="sumRate">—</span></div>
-                    <div class="fee-summary-row total"><span>Total due today (escrow)</span><span id="sumTotal">—</span></div>
-                </div>
-
-                <div class="dummy-note">⚠️ Test mode — no real payment will be processed. Use any card number.</div>
-
-                <div class="field" style="margin-bottom: 1rem;">
-                    <label>Cardholder Name</label>
-                    <input type="text" id="cardName" placeholder="Name on card">
-                </div>
-
-                <div class="card-field-group">
-                    <div class="card-field-row">
-                        <span class="card-icon">💳</span>
-                        <input type="text" id="cardNumber" placeholder="Card number" maxlength="19" inputmode="numeric">
-                    </div>
-                    <div class="card-field-row-split">
-                        <div class="card-field-row">
-                            <input type="text" id="cardExpiry" placeholder="MM / YY" maxlength="7" inputmode="numeric">
-                        </div>
-                        <div class="card-field-row">
-                            <input type="text" id="cardCvc" placeholder="CVC" maxlength="4" inputmode="numeric">
-                        </div>
-                    </div>
-                </div>
-
-                <button class="pay-btn" onclick="processPayment()">
-                    🔒 Pay <span id="payBtnAmt">—</span> — Held in BDO Escrow
-                </button>
-
-                <div class="security-badges">
-                    <span class="sec-badge">🔒 256-bit SSL</span>
-                    <span class="sec-badge">🏦 BDO Escrow Protected</span>
-                    <span class="sec-badge">✓ No charge if no refund</span>
+                <div class="escrow-callout">
+                    <h4>Why escrow protects you</h4>
+                    <p>Your filing fee is held by <strong>BDO</strong>, one of the world's Big Four audit firms, in a segregated escrow account. TariffBack cannot access those funds until CBP confirms your refund. If no refund is issued, your fee is returned in full.</p>
+                    <p style="margin-top:0.75rem;"><a href="https://www.bdo.com/" target="_blank">Learn more about BDO →</a></p>
                 </div>
             </div>
+        </section>
 
-            <!-- STEP 4: SUCCESS -->
-            <div class="card success-screen" id="step4Card">
-                <div class="success-icon">✅</div>
-                <h2>Claim Secured!</h2>
-                <p>Your filing fee has been placed into BDO escrow.</p>
-                <div class="success-amount" id="successAmt">—</div>
-                <p style="font-size:0.88rem; color:var(--text-light);">held in escrow · released only when your refund arrives</p>
-
-                <div class="next-steps">
-                    <h4>What happens next</h4>
-                    <div class="next-step-item">
-                        <div class="ns-num">1</div>
-                        <p><strong>Check your inbox</strong> — we've sent you a confirmation with your claim reference and next steps.</p>
-                    </div>
-                    <div class="next-step-item">
-                        <div class="ns-num">2</div>
-                        <p><strong>Grant ACE access</strong> — we'll email you a short guide. Takes ~10 minutes. This lets us pull your entry data.</p>
-                    </div>
-                    <div class="next-step-item">
-                        <div class="ns-num">3</div>
-                        <p><strong>Audit delivered in 48 hrs</strong> — entry-by-entry breakdown, Phase 1 vs Phase 2 split, full reconciliation.</p>
-                    </div>
-                    <div class="next-step-item">
-                        <div class="ns-num">4</div>
-                        <p><strong>We file your CAPE claim</strong> — CBP processes refunds in 60–90 days. Once it lands, BDO releases our fee.</p>
-                    </div>
+        <!-- PRICING TIERS -->
+        <section class="tier-section">
+            <div class="tier-section-inner">
+                <div class="section-header">
+                    <h2>Simple, Tiered Pricing</h2>
+                    <p>The larger your refund, the lower your rate. All fees held in BDO escrow.</p>
                 </div>
-
-                <p style="font-size:0.85rem; color:var(--text-light);">Questions? Reply to your confirmation email or contact us at <a href="mailto:hello@tariffback.com" style="color:var(--primary);">hello@tariffback.com</a></p>
-            </div>
-
-        </div>
-
-        <!-- SIDEBAR -->
-        <div>
-            <div class="sidebar-card" style="margin-bottom:1.5rem;">
-                <h4>Pricing Tiers</h4>
-                <table class="tier-table">
+                <table class="tier-table-full">
                     <thead>
-                        <tr><th>Refund</th><th>Fee</th></tr>
+                        <tr><th>Estimated Refund</th><th>Filing Fee</th><th>You Keep</th></tr>
                     </thead>
-                    <tbody id="tierTableBody">
-                        <tr data-tier="1"><td>Up to $20K</td><td class="fee-cell">$1,500</td></tr>
-                        <tr data-tier="2"><td>$20K – $100K</td><td class="fee-cell">$5,000</td></tr>
-                        <tr data-tier="3"><td>$100K – $500K</td><td class="fee-cell">5%</td></tr>
-                        <tr data-tier="4"><td>Above $500K</td><td class="fee-cell">3%</td></tr>
+                    <tbody>
+                        <tr><td>Up to $20,000</td><td class="fee-col">$1,500 flat</td><td>$18,500+</td></tr>
+                        <tr><td>$20,000 – $100,000</td><td class="fee-col">$5,000 flat</td><td>$15,000 – $95,000</td></tr>
+                        <tr><td>$100,000 – $500,000</td><td class="fee-col">5% of refund</td><td>95% of refund</td></tr>
+                        <tr><td>Above $500,000</td><td class="fee-col">3% of refund</td><td>97% of refund</td></tr>
                     </tbody>
                 </table>
+                <p class="tier-note">All fees placed in BDO escrow at time of filing. Released to TariffBack only upon CBP refund confirmation. No refund = full fee returned.</p>
             </div>
+        </section>
 
-            <div class="sidebar-card">
-                <h4>Why TariffBack</h4>
-                <div class="trust-item">
-                    <div class="ti-icon">🏦</div>
-                    <div>
-                        <h5>BDO Escrow</h5>
-                        <p>Your fee is held by BDO — a Big Four firm — until your refund arrives. We're never paid before you are.</p>
+        <!-- STATS -->
+        <section class="stats-section">
+            <div class="stats-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">$166B</div>
+                        <div class="stat-label">Total IEEPA duties collected — paid by US importers since Feb 2025</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">$503K</div>
+                        <div class="stat-label">Average refund per importer ($166B ÷ 330K affected importers)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">$127B</div>
+                        <div class="stat-label">Phase 1 eligible — 76.5% of the pool. File before the window closes.</div>
                     </div>
                 </div>
-                <div class="trust-item">
-                    <div class="ti-icon">⚡</div>
-                    <div>
-                        <h5>48-Hour Audit</h5>
-                        <p>Full entry-by-entry breakdown delivered within 2 business days of ACE access.</p>
+                <p style="text-align:center; margin-top:1.5rem; font-size:0.8rem; color:var(--text-light);">Source: U.S. Customs &amp; Border Protection · Government Executive, April 2026</p>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="how-it-works" id="how-it-works">
+            <div class="how-grid" style="max-width:1400px; margin:0 auto;">
+                <div style="grid-column:1/-1; text-align:center; margin-bottom:1rem;">
+                    <h2 style="font-size:2rem; color:var(--secondary);">3-Step Process. Get Your Answer in 2 Days.</h2>
+                </div>
+                <div class="how-card">
+                    <div class="number">1</div>
+                    <h3>Analyze (10 min)</h3>
+                    <p>Grant read-only ACE access in a 6-step process. Our system cross-references every entry against IEEPA HTS classifications and CBP liquidation windows.</p>
+                </div>
+                <div class="how-card">
+                    <div class="number">2</div>
+                    <h3>Audit (24–48 hrs)</h3>
+                    <p>A full breakdown showing exactly what refund you're entitled to — entry-by-entry, line-by-line, with Phase 1 vs Phase 2 split clearly identified.</p>
+                </div>
+                <div class="how-card">
+                    <div class="number">3</div>
+                    <h3>Report (Ready)</h3>
+                    <p>Interactive HTML dashboard, Excel validation workbook, and Phase 1 vs Phase 2 eligibility split. We handle CAPE filing and CBP correspondence.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MIDDLE CTA -->
+        <section class="middle-cta">
+            <div class="middle-cta-content">
+                <h2>Ready to See What You're Owed?</h2>
+                <p>Most of our customers find out within 48 hours that they're eligible for a significant refund. Lock in your claim with a single click.</p>
+                <button class="cta-button cta-primary" onclick="scrollToCard()">Claim Your Refund Now</button>
+                <div class="middle-cta-subtext">
+                    ✓ Tiered pricing from $1,500 • ✓ Fee held in BDO escrow • ✓ Released only when your refund arrives
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT YOU'LL GET -->
+        <section class="what-youll-get" id="what-youll-get">
+            <div style="max-width:1400px; margin:0 auto;">
+                <div class="section-header">
+                    <h2>What You'll Get</h2>
+                    <p>Your claim includes everything you need to move forward.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="number">1</div>
+                        <h3>Interactive Dashboard</h3>
+                        <p>Phase 1 vs Phase 2 breakdown with HTS classification detail. Shareable internally across your team.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="number">2</div>
+                        <h3>HTS Classification Detail</h3>
+                        <p>IEEPA vs Section 301/232 breakdown per entry line. Know exactly which tariffs you can recover.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="number">3</div>
+                        <h3>Phase 1 vs Phase 2 Roadmap</h3>
+                        <p>File now: $127B pool. Phase 1 (80-day window). Phase 2 (protest route). Clear path forward.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="number">4</div>
+                        <h3>Full Audit Trail</h3>
+                        <p>Every number traces to CBP source data. Excel validation workbook — every dollar traceable. 100% reconciled.</p>
                     </div>
                 </div>
-                <div class="trust-item">
-                    <div class="ti-icon">✓</div>
-                    <div>
-                        <h5>No refund = full refund</h5>
-                        <p>If CBP doesn't pay out, your escrow fee is returned. Zero risk.</p>
+            </div>
+        </section>
+
+        <!-- SAMPLE REPORT -->
+        <section class="sample-report">
+            <div class="sample-content">
+                <div class="section-header">
+                    <h2>See What Your Audit Will Look Like</h2>
+                    <p>This is a real audit, anonymized. Every figure traces back to CBP data. Yours will follow the same format.</p>
+                </div>
+                <div class="dash">
+                    <div class="dash-bar">
+                        <span class="dash-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></span>
+                        <span class="dash-path"><b>TARIFFBACK.REFUND.AUDIT</b> / DASHBOARD.HTML</span>
+                        <span class="dash-reconciled">RECONCILED <span class="tie">✓ TIE</span></span>
+                    </div>
+                    <div class="dash-body">
+                        <div class="dash-cards">
+                            <div class="dash-card c-teal">
+                                <div class="k-label">Refundable Pool</div>
+                                <div class="k-value">$168,427<span class="k-sub">.30</span></div>
+                                <div class="k-desc">Total IEEPA duty across all eligible entries</div>
+                                <div class="k-bars"><i style="height:35%"></i><i style="height:45%"></i><i style="height:40%"></i><i style="height:65%"></i><i style="height:55%"></i><i style="height:80%"></i><i style="height:70%"></i><i style="height:100%"></i></div>
+                            </div>
+                            <div class="dash-card c-lime">
+                                <div class="k-label">CAPE Phase 1 — File Now</div>
+                                <div class="k-value">$164,892<span class="k-sub">.15</span></div>
+                                <div class="k-desc">Available immediately via CAPE portal submission</div>
+                                <div class="k-bars"><i style="height:30%"></i><i style="height:50%"></i><i style="height:40%"></i><i style="height:60%"></i><i style="height:75%"></i><i style="height:65%"></i><i style="height:85%"></i><i style="height:100%"></i></div>
+                            </div>
+                            <div class="dash-card c-dark">
+                                <div class="k-label">Eligible Entries</div>
+                                <div class="k-value">47 <span class="k-sub">/ 62</span></div>
+                                <div class="k-desc">75.8% of total entries reviewed carry refunds</div>
+                                <div class="k-bars"><i style="height:70%"></i><i style="height:70%"></i><i style="height:70%"></i><i style="height:70%"></i><i style="height:70%"></i><i class="muted" style="height:45%"></i><i class="muted" style="height:45%"></i></div>
+                            </div>
+                            <div class="dash-card c-purple">
+                                <div class="k-label">IEEPA Coverage</div>
+                                <div class="k-value">76<span class="k-sub">%</span></div>
+                                <div class="k-desc">Of all entries carry refundable IEEPA duty</div>
+                                <div class="k-bars"><i style="height:55%"></i><i style="height:45%"></i><i style="height:60%"></i><i style="height:50%"></i><i style="height:70%"></i><i style="height:60%"></i><i style="height:65%"></i></div>
+                            </div>
+                        </div>
+                        <div class="dash-split-head">
+                            <h4>Phase 1 vs Phase 2 — Refundable Split</h4>
+                            <span class="meta">TOTAL POOL · <b>$168,427.30</b> · 47 ENTRIES</span>
+                        </div>
+                        <div class="dash-splitbar">
+                            <span class="pill">● PHASE 1 — FILE NOW</span>
+                            <span class="amt">$164,892</span>
+                            <span class="pct">97.9%</span>
+                        </div>
+                        <p class="dash-disclaimer">Real audit, anonymized · Report ID TBK-A-0427 · Period FEB 2025 – APR 2026 · 62 entries reviewed · 100% reconciled</p>
                     </div>
                 </div>
-                <div class="trust-item">
-                    <div class="ti-icon">🛡</div>
-                    <div>
-                        <h5>CAPE Filing Included</h5>
-                        <p>We handle the entire CAPE portal submission and manage CBP correspondence.</p>
+                <div style="text-align:center; margin-top:2rem;">
+                    <button class="cta-button cta-primary" onclick="scrollToCard()">Claim Your Refund Now →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- URGENCY -->
+        <section class="urgency-section">
+            <div style="max-width:1400px; margin:0 auto;">
+                <div class="section-header">
+                    <h2>Don't Wait — Phase 1 Window Is Closing</h2>
+                </div>
+                <div class="urgency-card">
+                    <div class="urgency-number">80</div>
+                    <div class="urgency-label">Day Window</div>
+                    <p>Entries liquidated before the Supreme Court ruling (Feb 20, 2026) are moving into Phase 2 — which requires a complex CBP protest process.</p>
+                    <p><strong>Your earliest entries could expire within weeks.</strong></p>
+                    <button class="cta-button cta-primary" style="margin-top:1rem;" onclick="scrollToCard()">Lock In My Claim Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRUST -->
+        <section class="trust-section">
+            <div class="trust-content">
+                <div class="section-header">
+                    <h2>You Can Trust Us</h2>
+                    <p>Built on partnerships with the world's leading customs and compliance firms.</p>
+                </div>
+                <div class="trust-grid">
+                    <div class="trust-card">
+                        <div class="trust-icon">🏦</div>
+                        <h4>BDO Escrow-Backed</h4>
+                        <p>Your filing fee is held in escrow by BDO, one of the Big Four audit firms — released only when your refund arrives. Zero risk.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">✓</div>
+                        <h4>100% Reconciliation</h4>
+                        <p>Every figure in your audit traces directly to your ACE entry data. Full transparency, no hidden numbers.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">📈</div>
+                        <h4>Trusted by 500+</h4>
+                        <p>Leading companies rely on TariffBack for customs advisory, tariff recovery, and trade compliance.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">⚡</div>
+                        <h4>48-Hour Turnaround</h4>
+                        <p>Your audit is delivered within 2 business days of granting ACE access. Time is critical right now.</p>
+                    </div>
+                    <div class="trust-card">
+                        <div class="trust-icon">🛡</div>
+                        <h4>CAPE Filing Included</h4>
+                        <p>Once your audit is ready, we handle CAPE filing and manage all CBP correspondence for you.</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq-section" id="faq">
+            <div class="faq-content">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>How much will this cost?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">Pricing is tiered by your refund size: up to $20K refund = $1,500 flat; $20K–$100K = $5,000 flat; $100K–$500K = 5%; above $500K = 3%. Your filing fee is placed in BDO escrow at the time of filing and released to TariffBack only once your CBP refund arrives. No refund means your fee is returned in full.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>What is the escrow process?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">When you lock in your claim, your filing fee goes into a BDO-managed escrow account — not to TariffBack. BDO holds it until your CBP refund is processed and confirmed. Once your refund arrives, BDO releases the fee to us and the rest goes to you. We are never paid before you are.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>What if no refund is issued?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">If CBP determines no refund is owed, your full filing fee is returned from escrow. You risk nothing.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Do you need my actual tariff data?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">We need read-only access to your ACE account. You control the access via the CBP system — you can revoke it anytime. We never download or store your data on our servers.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>What if I'm not ACE registered yet?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">No problem — we help. Most companies complete ACE registration in 1–2 weeks with our guidance. You can lock in your claim now and we'll walk you through ACE registration as the next step.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>What's the difference between Phase 1 and Phase 2?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">Phase 1 (80 days from entry liquidation): file via CBP CAPE portal — straightforward, 60–90 day refund. Phase 2 (after 80 days): requires a formal CBP protest — complex, longer timeline. Our audit tells you exactly which path applies to each of your entries.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>How long does filing take?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">CAPE filing takes 1–2 weeks. CBP processes refunds in 60–90 days. Phase 2 protests take longer depending on CBP workload.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h4>Can I see a sample audit before committing?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">Yes. We show a real anonymized audit on this page. Every audit follows the same format — 100% reconciled, entry-by-entry, Phase 1 vs Phase 2 split clearly shown.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA -->
+        <section class="final-cta">
+            <div class="final-cta-content">
+                <h2>Ready?</h2>
+                <p>Lock in your refund claim now. Transparent pricing, BDO escrow, zero risk.</p>
+                <div class="final-cta-buttons">
+                    <button class="cta-button cta-primary" onclick="scrollToCard()">Claim My Refund Now →</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Blog</a>
+                <a href="#">ACE Registration Guide</a>
+            </div>
+            <div class="footer-copyright">
+                © 2026 TariffBack. All rights reserved. IEEPA Tariff Refunds are administered by the U.S. Customs and Border Protection (CBP).
             </div>
         </div>
-    </div>
-</div>
+    </footer>
 
-<footer>
-    © 2026 TariffBack. All rights reserved. IEEPA Tariff Refunds are administered by U.S. Customs and Border Protection (CBP).<br>
-    <span style="opacity:0.6;">This page is in test mode. No real payments are processed.</span>
-</footer>
+    <script>
+        var RATES = {
+            'China':0.20,'Vietnam':0.32,'India':0.20,'Taiwan':0.24,
+            'Bangladesh':0.22,'Cambodia':0.35,'Indonesia':0.18,'Thailand':0.18,
+            'Japan':0.18,'South Korea':0.18,'EU':0.16,'UK':0.10,
+            'Brazil':0.10,'Mexico':0.10,'Other':0.10
+        };
+        var state = { refundMid:0, fee:0, tierLabel:'', tierRate:'' };
 
-<script>
-    // ── IEEPA time-weighted rates (same as main page) ──
-    var RATES = {
-        'China':0.20,'Vietnam':0.32,'India':0.20,'Taiwan':0.24,
-        'Bangladesh':0.22,'Cambodia':0.35,'Indonesia':0.18,'Thailand':0.18,
-        'Japan':0.18,'South Korea':0.18,'EU':0.16,'UK':0.10,
-        'Brazil':0.10,'Mexico':0.10,'Other':0.10
-    };
+        function fmtD(n) {
+            if (n >= 1000000) return '$' + (n/1000000).toFixed(1).replace(/\.0$/,'') + 'M';
+            if (n >= 1000)    return '$' + Math.round(n/1000) + 'K';
+            return '$' + Math.round(n).toLocaleString();
+        }
+        function fmtFull(n) { return '$' + Math.round(n).toLocaleString(); }
 
-    var state = { refundMid: 0, fee: 0, tier: 0, tierLabel: '' };
+        function calcTier(r) {
+            if (r <= 20000)  return { label:'Tier 1', fee:1500,    rate:'$1,500 flat' };
+            if (r <= 100000) return { label:'Tier 2', fee:5000,    rate:'$5,000 flat' };
+            if (r <= 500000) return { label:'Tier 3', fee:r*0.05,  rate:'5%' };
+            return                  { label:'Tier 4', fee:r*0.03,  rate:'3%' };
+        }
 
-    // ── Format helpers ──
-    function fmtD(n) {
-        if (n >= 1000000) return '$' + (n/1000000).toFixed(1).replace(/\.0$/,'') + 'M';
-        if (n >= 1000)    return '$' + Math.round(n/1000) + 'K';
-        return '$' + Math.round(n).toLocaleString();
-    }
-    function fmtFull(n) { return '$' + Math.round(n).toLocaleString(); }
+        function runEstimate() {
+            var country = document.getElementById('country').value;
+            var raw = document.getElementById('importValue').value.replace(/[^0-9.]/g,'');
+            var val = parseFloat(raw);
+            if (!country) { document.getElementById('country').focus(); return; }
+            if (!val || val <= 0) { document.getElementById('importValue').focus(); return; }
 
-    // ── Tier logic ──
-    function calcTier(refund) {
-        if (refund <= 20000)  return { tier:1, label:'Tier 1', fee:1500,       rate:'$1,500 flat' };
-        if (refund <= 100000) return { tier:2, label:'Tier 2', fee:5000,       rate:'$5,000 flat' };
-        if (refund <= 500000) return { tier:3, label:'Tier 3', fee:refund*0.05, rate:'5%' };
-        return                       { tier:4, label:'Tier 4', fee:refund*0.03, rate:'3%' };
-    }
+            var rate = RATES[country] || 0.10;
+            var mid  = val * rate;
+            var low  = mid * 0.80;
+            var high = mid * 1.20;
+            var t    = calcTier(mid);
 
-    // ── Step 1: Estimate ──
-    function runEstimate() {
-        var country = document.getElementById('country').value;
-        var raw = document.getElementById('importValue').value.replace(/[^0-9.]/g,'');
-        var importVal = parseFloat(raw);
+            state.refundMid = mid;
+            state.fee       = t.fee;
+            state.tierLabel = t.label;
+            state.tierRate  = t.rate;
 
-        if (!country) { document.getElementById('country').focus(); return; }
-        if (!importVal || importVal <= 0) { document.getElementById('importValue').focus(); return; }
+            document.getElementById('estAmount').textContent   = fmtD(mid);
+            document.getElementById('refundRange').textContent = fmtD(low) + ' – ' + fmtD(high);
+            document.getElementById('tierBadge').textContent   = t.label.toUpperCase();
+            document.getElementById('filingFee').textContent   =
+                (t.rate === '$1,500 flat' || t.rate === '$5,000 flat') ? fmtFull(t.fee) : t.rate + ' = ' + fmtFull(t.fee);
+            document.getElementById('youKeep').textContent     = fmtD(mid - t.fee) + ' (est.)';
 
-        var rate = RATES[country] || 0.10;
-        var mid  = importVal * rate;
-        var low  = mid * 0.80;
-        var high = mid * 1.20;
-        var t    = calcTier(mid);
+            document.getElementById('tierResult').classList.add('visible');
+        }
 
-        state.refundMid  = mid;
-        state.fee        = t.fee;
-        state.tier       = t.tier;
-        state.tierLabel  = t.label;
-        state.tierRate   = t.rate;
+        function goToDetails() {
+            setStep(2);
+            document.getElementById('ps1').classList.remove('visible');
+            document.getElementById('ps2').classList.add('visible');
+        }
 
-        document.getElementById('estAmount').textContent  = fmtD(mid);
-        document.getElementById('refundRange').textContent = fmtD(low) + ' – ' + fmtD(high);
-        document.getElementById('tierBadge').textContent  = t.label.toUpperCase();
-        document.getElementById('filingFee').textContent  = t.rate === '$1,500 flat' || t.rate === '$5,000 flat'
-            ? fmtFull(t.fee) : t.rate + ' = ' + fmtFull(t.fee);
-        document.getElementById('youKeep').textContent = fmtD(mid - t.fee) + ' (estimated)';
+        function goToPayment() {
+            var company = document.getElementById('companyName').value.trim();
+            var email   = document.getElementById('workEmail').value.trim();
+            if (!company || !email) { alert('Please enter your company name and email.'); return; }
 
-        // Highlight active tier in sidebar
-        document.querySelectorAll('#tierTableBody tr').forEach(function(row) {
-            row.classList.toggle('active-tier', parseInt(row.dataset.tier) === t.tier);
+            var feeStr = fmtFull(state.fee);
+            document.getElementById('payNoticeAmt').textContent = feeStr;
+            document.getElementById('sumRefund').textContent    = fmtD(state.refundMid);
+            document.getElementById('sumTier').textContent      = state.tierLabel + ' · ' + state.tierRate;
+            document.getElementById('sumTotal').textContent     = feeStr;
+            document.getElementById('payBtnAmt').textContent    = feeStr;
+
+            setStep(3);
+            document.getElementById('ps2').classList.remove('visible');
+            document.getElementById('ps3').classList.add('visible');
+        }
+
+        function processPayment() {
+            var cardName   = document.getElementById('cardName').value.trim();
+            var cardNumber = document.getElementById('cardNumber').value.replace(/\s/g,'');
+            var expiry     = document.getElementById('cardExpiry').value.trim();
+            var cvc        = document.getElementById('cardCvc').value.trim();
+            if (!cardName || cardNumber.length < 13 || !expiry || cvc.length < 3) {
+                alert('Please complete all card fields.'); return;
+            }
+            var btn = document.querySelector('.pay-btn-hero');
+            btn.textContent = '⏳ Processing...';
+            btn.disabled = true;
+            setTimeout(function() {
+                document.getElementById('successAmt').textContent = fmtFull(state.fee);
+                setStep(4);
+                document.getElementById('ps3').classList.remove('visible');
+                document.getElementById('ps4').classList.add('visible');
+            }, 1800);
+        }
+
+        function setStep(n) {
+            for (var i = 1; i <= 4; i++) {
+                var c = document.getElementById('pc' + i);
+                var l = document.getElementById('pl' + i);
+                c.classList.remove('active','done');
+                l.classList.remove('active');
+                if (i < n)       { c.classList.add('done'); c.textContent = '✓'; }
+                else if (i === n){ c.classList.add('active'); l.classList.add('active'); }
+                else             { c.textContent = i; }
+                if (i < 4) document.getElementById('pline' + i).classList.toggle('done', i < n);
+            }
+        }
+
+        function scrollToCard() {
+            var card = document.getElementById('payCard');
+            if (card) card.scrollIntoView({ behavior:'smooth', block:'start' });
+        }
+
+        // Input formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('importValue').addEventListener('input', function() {
+                var d = this.value.replace(/[^0-9]/g,'');
+                if (d) this.value = '$' + parseInt(d,10).toLocaleString();
+            });
+            document.getElementById('importValue').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') runEstimate();
+            });
+            document.getElementById('cardNumber').addEventListener('input', function() {
+                var d = this.value.replace(/\D/g,'').substring(0,16);
+                this.value = d.replace(/(.{4})/g,'$1 ').trim();
+            });
+            document.getElementById('cardExpiry').addEventListener('input', function() {
+                var d = this.value.replace(/\D/g,'').substring(0,4);
+                if (d.length > 2) d = d.substring(0,2) + ' / ' + d.substring(2);
+                this.value = d;
+            });
+            document.getElementById('cardCvc').addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g,'').substring(0,4);
+            });
+            document.querySelector('.header-cta').addEventListener('click', scrollToCard);
         });
 
-        document.getElementById('tierResult').classList.add('visible');
-        document.getElementById('tierResult').scrollIntoView({ behavior:'smooth', block:'nearest' });
-    }
-
-    // ── Step 2: Details ──
-    function goToDetails() {
-        setStep(2);
-        document.getElementById('step1Card').style.display = 'none';
-        document.getElementById('step2Card').classList.add('visible');
-        document.getElementById('step2Card').scrollIntoView({ behavior:'smooth', block:'start' });
-    }
-
-    // ── Step 3: Payment ──
-    function goToPayment() {
-        var company = document.getElementById('companyName').value.trim();
-        var email   = document.getElementById('workEmail').value.trim();
-        if (!company || !email) {
-            alert('Please enter your company name and work email.');
-            return;
-        }
-
-        var feeStr = fmtFull(state.fee);
-        document.getElementById('payNoticeAmt').textContent = feeStr;
-        document.getElementById('sumRefund').textContent    = fmtD(state.refundMid);
-        document.getElementById('sumTier').textContent      = state.tierLabel;
-        document.getElementById('sumRate').textContent      = state.tierRate;
-        document.getElementById('sumTotal').textContent     = feeStr;
-        document.getElementById('payBtnAmt').textContent    = feeStr;
-
-        setStep(3);
-        document.getElementById('step2Card').classList.remove('visible');
-        document.getElementById('step3Card').classList.add('visible');
-        document.getElementById('step3Card').scrollIntoView({ behavior:'smooth', block:'start' });
-    }
-
-    // ── Step 4: Confirm (dummy) ──
-    function processPayment() {
-        var cardName   = document.getElementById('cardName').value.trim();
-        var cardNumber = document.getElementById('cardNumber').value.replace(/\s/g,'');
-        var expiry     = document.getElementById('cardExpiry').value.trim();
-        var cvc        = document.getElementById('cardCvc').value.trim();
-
-        if (!cardName || cardNumber.length < 13 || !expiry || cvc.length < 3) {
-            alert('Please complete all card fields.');
-            return;
-        }
-
-        // Simulate processing
-        var btn = document.querySelector('.pay-btn');
-        btn.textContent = '⏳ Processing...';
-        btn.disabled = true;
-
-        setTimeout(function() {
-            document.getElementById('successAmt').textContent = fmtFull(state.fee);
-            setStep(4);
-            document.getElementById('step3Card').classList.remove('visible');
-            document.getElementById('step4Card').classList.add('visible');
-            document.getElementById('step4Card').scrollIntoView({ behavior:'smooth', block:'start' });
-        }, 1800);
-    }
-
-    // ── Step indicator ──
-    function setStep(n) {
-        for (var i = 1; i <= 4; i++) {
-            var circle = document.getElementById('stepCircle' + i);
-            var label  = document.getElementById('stepLabel'  + i);
-            if (i < n) {
-                circle.classList.remove('active'); circle.classList.add('done'); circle.textContent = '✓';
-            } else if (i === n) {
-                circle.classList.add('active'); circle.classList.remove('done');
-                label.classList.add('active');
-            } else {
-                circle.classList.remove('active','done');
-                label.classList.remove('active');
-            }
-            if (i < 4) {
-                var line = document.getElementById('stepLine' + i);
-                line.classList.toggle('done', i < n);
+        function toggleFAQ(element) {
+            var answer = element.nextElementSibling;
+            var toggle = element.querySelector('.faq-toggle');
+            if (answer && toggle) {
+                answer.classList.toggle('visible');
+                toggle.textContent = answer.classList.contains('visible') ? '−' : '+';
             }
         }
-    }
-
-    // ── Input formatting ──
-    document.getElementById('importValue').addEventListener('input', function() {
-        var d = this.value.replace(/[^0-9]/g,'');
-        if (d) this.value = '$' + parseInt(d,10).toLocaleString();
-    });
-    document.getElementById('importValue').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') runEstimate();
-    });
-
-    document.getElementById('cardNumber').addEventListener('input', function() {
-        var d = this.value.replace(/\D/g,'').substring(0,16);
-        this.value = d.replace(/(.{4})/g,'$1 ').trim();
-    });
-    document.getElementById('cardExpiry').addEventListener('input', function() {
-        var d = this.value.replace(/\D/g,'').substring(0,4);
-        if (d.length > 2) d = d.substring(0,2) + ' / ' + d.substring(2);
-        this.value = d;
-    });
-    document.getElementById('cardCvc').addEventListener('input', function() {
-        this.value = this.value.replace(/\D/g,'').substring(0,4);
-    });
-</script>
+    </script>
 </body>
 </html>
