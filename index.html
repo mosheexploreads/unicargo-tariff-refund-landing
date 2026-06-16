@@ -573,7 +573,7 @@
             line-height: 1.6;
         }
 
-        /* ===== MIDDLE CTA SECTION ===== */
+        /* ===== MIDDLE CTA / ESTIMATOR SECTION ===== */
         .middle-cta {
             padding: 4rem 2rem;
             background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%);
@@ -591,7 +591,7 @@
             margin-bottom: 1rem;
         }
 
-        .middle-cta p {
+        .middle-cta > .middle-cta-content > p {
             font-size: 1.1rem;
             margin-bottom: 2rem;
             opacity: 0.95;
@@ -609,6 +609,147 @@
 
         .middle-cta-secondary {
             margin-top: 1rem;
+        }
+
+        /* Estimator card */
+        .estimator-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem auto 0;
+            max-width: 560px;
+            text-align: left;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .estimator-card h3 {
+            color: var(--secondary);
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .est-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 540px) {
+            .est-row { grid-template-columns: 1fr; }
+        }
+
+        .est-field label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+
+        .est-field select,
+        .est-field input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--text-dark);
+            background: var(--white);
+            transition: border-color 0.2s;
+        }
+
+        .est-field select:focus,
+        .est-field input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0,191,179,0.12);
+        }
+
+        .est-calc-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-top: 0.5rem;
+        }
+
+        .est-calc-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0,191,179,0.35);
+        }
+
+        .est-result {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            background: #F0FFFE;
+            border: 1.5px solid var(--primary);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .est-result.visible { display: block; }
+
+        .est-result-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+        }
+
+        .est-result-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--secondary);
+            line-height: 1.1;
+        }
+
+        .est-result-range {
+            font-size: 0.82rem;
+            color: var(--text-light);
+            margin-top: 0.4rem;
+        }
+
+        .est-result-caveat {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.75rem;
+            line-height: 1.5;
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+        }
+
+        .est-result-cta {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--secondary);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .est-result-cta:hover {
+            background: #0F2942;
+            transform: translateY(-1px);
         }
 
         /* ===== WHAT YOU'LL GET ===== */
@@ -1348,12 +1489,54 @@
             </div>
         </section>
 
-        <!-- MIDDLE CTA SECTION -->
+        <!-- MIDDLE CTA / ESTIMATOR SECTION -->
         <section class="middle-cta">
             <div class="middle-cta-content">
                 <h2>Ready to See What You're Owed?</h2>
                 <p>Most of our customers find out within 48 hours that they're eligible for a significant refund. Your audit starts with a single click.</p>
-                <button class="cta-button cta-primary">Get Your Refund Estimate Now</button>
+
+                <div class="estimator-card">
+                    <h3>Get Your Refund Estimate Now</h3>
+                    <div class="est-row">
+                        <div class="est-field">
+                            <label>Country of Origin</label>
+                            <select id="estCountry">
+                                <option value="">Select country</option>
+                                <option value="China">China</option>
+                                <option value="Vietnam">Vietnam</option>
+                                <option value="India">India</option>
+                                <option value="Taiwan">Taiwan</option>
+                                <option value="Bangladesh">Bangladesh</option>
+                                <option value="Cambodia">Cambodia</option>
+                                <option value="Indonesia">Indonesia</option>
+                                <option value="Thailand">Thailand</option>
+                                <option value="Japan">Japan</option>
+                                <option value="South Korea">South Korea</option>
+                                <option value="EU">European Union</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="Brazil">Brazil</option>
+                                <option value="Mexico">Mexico</option>
+                                <option value="Other">Other country</option>
+                            </select>
+                        </div>
+                        <div class="est-field">
+                            <label>Total Import Value (Apr 2025–Feb 2026)</label>
+                            <input type="text" id="estValue" placeholder="e.g. $500,000" inputmode="numeric">
+                        </div>
+                    </div>
+                    <button class="est-calc-btn" onclick="calculateEstimate()">Calculate My Estimate →</button>
+
+                    <div class="est-result" id="estResult">
+                        <div class="est-result-label">Estimated IEEPA Refund</div>
+                        <div class="est-result-value" id="estResultValue"></div>
+                        <div class="est-result-range" id="estResultRange"></div>
+                        <div class="est-result-caveat">
+                            Based on time-weighted average IEEPA rates for the period. Actual refund depends on HTS classification, entry liquidation dates, and exact duty paid. Section 301/232 duties are not refundable.
+                        </div>
+                        <button class="est-result-cta" onclick="scrollToForm()">Get Your Exact Amount — Start Free Audit →</button>
+                    </div>
+                </div>
+
                 <div class="middle-cta-subtext">
                     ✓ Free audit • ✓ 5% filing fee, held in BDO escrow • ✓ Released only when your refund arrives
                 </div>
@@ -1818,6 +2001,74 @@
             if (e.target.classList.contains('modal')) {
                 e.target.classList.remove('visible');
                 document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Refund estimator
+        // Time-weighted average IEEPA rates (Apr 5 2025 – Feb 20 2026, ~321 days, equally distributed)
+        var IEEPA_RATES = {
+            'China':       0.20,  // 10% most of period; 125% for ~35 days in April
+            'Vietnam':     0.32,  // 46% after 90-day pause; 10% before
+            'India':       0.20,  // 26% after pause
+            'Taiwan':      0.24,  // 32% after pause
+            'Bangladesh':  0.22,  // 37% after pause
+            'Cambodia':    0.35,  // 49% after pause
+            'Indonesia':   0.18,  // 32% after pause
+            'Thailand':    0.18,  // 36% after pause
+            'Japan':       0.18,  // 24% after pause
+            'South Korea': 0.18,  // 25% after pause
+            'EU':          0.16,  // 20% after pause
+            'UK':          0.10,  // 10% flat
+            'Brazil':      0.10,  // 10% flat
+            'Mexico':      0.10,  // USMCA — minimal IEEPA exposure
+            'Other':       0.10
+        };
+
+        function calculateEstimate() {
+            var country = document.getElementById('estCountry').value;
+            var rawValue = document.getElementById('estValue').value.replace(/[^0-9.]/g, '');
+            var importValue = parseFloat(rawValue);
+
+            if (!country) {
+                document.getElementById('estCountry').focus();
+                return;
+            }
+            if (!importValue || importValue <= 0) {
+                document.getElementById('estValue').focus();
+                return;
+            }
+
+            var rate = IEEPA_RATES[country] || 0.10;
+            var mid = importValue * rate;
+            var low = mid * 0.80;
+            var high = mid * 1.20;
+
+            document.getElementById('estResultValue').textContent = '$' + formatNum(mid);
+            document.getElementById('estResultRange').textContent =
+                'Likely range: $' + formatNum(low) + ' – $' + formatNum(high);
+
+            var result = document.getElementById('estResult');
+            result.classList.add('visible');
+            result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function formatNum(n) {
+            if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            if (n >= 1000) return Math.round(n / 1000) + 'K';
+            return Math.round(n).toLocaleString();
+        }
+
+        // Format value input with commas as user types
+        document.addEventListener('DOMContentLoaded', function() {
+            var estInput = document.getElementById('estValue');
+            if (estInput) {
+                estInput.addEventListener('input', function() {
+                    var digits = this.value.replace(/[^0-9]/g, '');
+                    if (digits) this.value = '$' + parseInt(digits, 10).toLocaleString();
+                });
+                estInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') calculateEstimate();
+                });
             }
         });
 
