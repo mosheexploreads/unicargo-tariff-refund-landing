@@ -573,6 +573,46 @@
             line-height: 1.6;
         }
 
+        /* ===== HOW REFUNDS ARE PAID ===== */
+        .refund-process {
+            padding: 4rem 2rem;
+            background: var(--bg-light);
+        }
+        .refund-process-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .refund-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .refund-step {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-top: 4px solid var(--primary);
+            position: relative;
+        }
+        .refund-step .rs-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+        .refund-step h4 { color: var(--secondary); font-size: 0.95rem; margin-bottom: 0.5rem; }
+        .refund-step p { color: var(--text-light); font-size: 0.88rem; line-height: 1.55; }
+        .refund-callout {
+            background: var(--secondary);
+            color: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .refund-callout .rc-icon { font-size: 2rem; flex-shrink: 0; }
+        .refund-callout p { font-size: 0.92rem; line-height: 1.6; opacity: 0.95; }
+        .refund-callout p b { color: var(--primary); }
+
         /* ===== MIDDLE CTA / ESTIMATOR SECTION ===== */
         .middle-cta {
             padding: 4rem 2rem;
@@ -1485,6 +1525,42 @@
                     <div class="number">3</div>
                     <h3>Report (Ready)</h3>
                     <p>Interactive HTML dashboard, Excel validation workbook, and Phase 1 vs Phase 2 eligibility split. We can guide you through CAPE filing if you'd like support.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW REFUNDS ARE PAID -->
+        <section class="refund-process">
+            <div class="refund-process-inner">
+                <div class="section-header">
+                    <h2>How CBP Pays Your Refund</h2>
+                    <p>All IEEPA refunds are paid electronically by U.S. Customs and Border Protection — directly into your US bank account via ACH transfer.</p>
+                </div>
+                <div class="refund-steps">
+                    <div class="refund-step">
+                        <div class="rs-icon">📋</div>
+                        <h4>1. CAPE Filing</h4>
+                        <p>Your refund claim is submitted through CBP's CAPE portal in ACE as a CSV of eligible entry numbers. CBP runs a two-round validation on each entry.</p>
+                    </div>
+                    <div class="refund-step">
+                        <div class="rs-icon">✅</div>
+                        <h4>2. CBP Approval</h4>
+                        <p>CBP reviews and approves each claim line. Approved entries are queued for payment. Both the principal duty amount and accrued interest are included in your refund.</p>
+                    </div>
+                    <div class="refund-step">
+                        <div class="rs-icon">🏦</div>
+                        <h4>3. US Bank Account Required</h4>
+                        <p>CBP issues all refunds via ACH to a US bank account on file in your ACE Portal profile. Paper checks are not issued. If your ACH enrollment is missing or incorrect, CBP places the payment in reject status until resolved.</p>
+                    </div>
+                    <div class="refund-step">
+                        <div class="rs-icon">💸</div>
+                        <h4>4. ACH Transfer</h4>
+                        <p>Once approved, funds hit your bank account within 60–90 days of filing. Refunds started going out as early as May 12, 2026 — some importers have already received payment.</p>
+                    </div>
+                </div>
+                <div class="refund-callout">
+                    <div class="rc-icon">⚠️</div>
+                    <p>A common reason refunds get stuck: <b>missing or outdated ACH bank info in ACE.</b> Before filing, your ACE profile must have a valid US bank account enrolled for refunds. We verify this as part of every audit — so your payment goes through the first time.</p>
                 </div>
             </div>
         </section>
