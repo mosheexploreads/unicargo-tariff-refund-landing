@@ -5,8 +5,13 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
-  // Serve index.html for all requests
-  let filePath = req.url === '/' ? '/index.html' : req.url;
+  // Route mapping
+  const routes = {
+    '/': '/index.html',
+    '/apply': '/apply.html'
+  };
+  const urlPath = req.url.split('?')[0]; // strip query string
+  let filePath = routes[urlPath] || req.url;
 
   // Security: prevent directory traversal
   filePath = path.normalize(filePath);
