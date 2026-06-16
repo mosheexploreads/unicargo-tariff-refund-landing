@@ -1,5 +1,5 @@
 /**
- * Unicargo IEEPA Tariff Refund — Lead Handler (Google Apps Script Web App)
+ * TariffBack IEEPA Tariff Refund — Lead Handler (Google Apps Script Web App)
  *
  * What it does on every form submission:
  *   1. Appends the lead to a Google Sheet  (durable record)
@@ -22,7 +22,7 @@ var CONFIG = {
 
   // Reply-to + sender display name on the email to the lead:
   REPLY_TO: 'moshe@explorads.com',
-  FROM_NAME: 'Unicargo Customs Advisory',
+  FROM_NAME: 'TariffBack Customs Advisory',
 
   // Google Drive file IDs of the two PDFs (see setup guide for how to get these).
   // Leave as-is and the email still sends — just without that attachment.
@@ -57,7 +57,7 @@ function doPost(e) {
 
 // Health check — open the web app URL in a browser to confirm it's live
 function doGet() {
-  return json_({ ok: true, service: 'Unicargo lead handler' });
+  return json_({ ok: true, service: 'TariffBack lead handler' });
 }
 
 function logToSheet_(d) {
@@ -174,7 +174,7 @@ function wrap_(heading, inner) {
         '<h2 style="color:#1A3A52;margin-top:0;">' + esc_(heading) + '</h2>' +
         inner +
         '<p style="margin-top:28px;color:#666;font-size:13px;">' +
-          'Unicargo Customs Advisory · This email does not constitute legal or customs advice.' +
+          'TariffBack Customs Advisory · This email does not constitute legal or customs advice.' +
         '</p>' +
       '</div>' +
     '</div>';
