@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACE Registration Guide - TariffBack</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #00BFB3; --secondary: #1A3A52; --text-dark: #1A1A1A; --text-light: #666666; --bg-light: #F7F9FC; --border: #E0E0E0; --white: #FFFFFF; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: var(--text-dark); background: var(--bg-light); }
+        header { background: var(--secondary); padding: 1rem 2rem; }
+        .header-inner { max-width: 960px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.4rem; font-weight: 700; color: #fff; text-decoration: none; }
+        .logo span { color: var(--primary); }
+        .back-link { color: var(--primary); text-decoration: none; font-size: 0.9rem; }
+        .back-link:hover { text-decoration: underline; }
+        .hero-strip { background: linear-gradient(135deg, var(--secondary) 0%, #0F2942 100%); padding: 3rem 2rem; text-align: center; color: #fff; }
+        .hero-strip h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .hero-strip .sub { opacity: 0.8; font-size: 0.9rem; margin-bottom: 1.25rem; }
+        .hero-strip .badge { display: inline-block; background: var(--primary); color: #fff; font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.9rem; border-radius: 20px; }
+        .content { max-width: 960px; margin: 2.5rem auto; padding: 0 1.5rem 4rem; }
+        .legal-box { background: #E8F5FF; border-left: 4px solid var(--secondary); padding: 1.25rem 1.5rem; border-radius: 6px; margin-bottom: 2rem; font-size: 0.9rem; color: var(--secondary); }
+        .legal-box b { font-size: 1rem; display: block; margin-bottom: 0.4rem; }
+        .doc-card { background: var(--white); border-radius: 12px; padding: 2.5rem 3rem; box-shadow: 0 4px 24px rgba(0,0,0,0.07); margin-bottom: 1.5rem; }
+        @media (max-width: 600px) { .doc-card { padding: 1.5rem; } }
+        .phase-label { display: inline-block; background: var(--secondary); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.75rem; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+        h2 { color: var(--secondary); font-size: 1.35rem; margin-bottom: 0.75rem; }
+        h3 { color: var(--secondary); font-size: 1.05rem; margin: 1.5rem 0 0.5rem; }
+        p { color: var(--text-light); margin-bottom: 0.85rem; font-size: 0.95rem; }
+        ul, ol { color: var(--text-light); font-size: 0.95rem; margin: 0.5rem 0 0.85rem 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+        .step-grid { display: grid; grid-template-columns: 40px 1fr; gap: 0.5rem 1rem; margin: 1.25rem 0; }
+        .step-num { width: 36px; height: 36px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; margin-top: 2px; }
+        .step-body { padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .step-body:last-of-type { border-bottom: none; }
+        .step-body h4 { color: var(--secondary); font-size: 0.95rem; margin-bottom: 0.3rem; }
+        .step-body p { margin-bottom: 0.4rem; }
+        .url-link { color: var(--primary); word-break: break-all; font-size: 0.88rem; }
+        .prereq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .prereq-card { background: var(--bg-light); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem; }
+        .prereq-card .prereq-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .prereq-card h4 { color: var(--secondary); font-size: 0.9rem; margin-bottom: 0.35rem; }
+        .prereq-card p { font-size: 0.85rem; margin-bottom: 0; }
+        .warning-box { background: #FFF8E1; border-left: 4px solid #F9A825; padding: 1rem 1.25rem; border-radius: 4px; margin: 1rem 0; font-size: 0.9rem; color: #5D4037; }
+        .success-box { background: #E8F5E9; border-left: 4px solid #43A047; padding: 1rem 1.25rem; border-radius: 4px; margin: 1rem 0; font-size: 0.9rem; color: #1B5E20; }
+        .url-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.88rem; }
+        .url-table th { background: var(--secondary); color: #fff; padding: 0.6rem 0.75rem; text-align: left; }
+        .url-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        .url-table tr:last-child td { border-bottom: none; }
+        .url-table a { color: var(--primary); }
+        .critical-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .critical-item { background: #FFF3E0; border: 1px solid #FFCC80; border-radius: 8px; padding: 1rem; }
+        .critical-item h4 { color: #E65100; font-size: 0.9rem; margin-bottom: 0.35rem; }
+        .critical-item p { font-size: 0.85rem; margin-bottom: 0; color: #BF360C; }
+        .cta-band { background: linear-gradient(135deg, var(--secondary), #0F2942); color: #fff; border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+        .cta-band h3 { color: #fff; margin-bottom: 0.5rem; }
+        .cta-band p { color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 1.25rem; }
+        .btn-primary { display: inline-block; background: var(--primary); color: #fff; text-decoration: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 600; font-size: 0.95rem; }
+        footer { background: var(--secondary); color: #fff; text-align: center; padding: 2rem; font-size: 0.82rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--primary); text-decoration: none; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-inner">
+        <a href="/" class="logo">Tariff<span>Back</span></a>
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+</header>
+<div class="hero-strip">
+    <h1>ACE Portal Registration Guide</h1>
+    <p class="sub">Step-by-step instructions to register for the US Customs ACE Portal and receive your IEEPA tariff refund via ACH</p>
+    <span class="badge">Updated May 2026</span>
+</div>
+
+<div class="content">
+
+    <!-- Legal Background -->
+    <div class="legal-box">
+        <b>Why ACE registration is required for your refund</b>
+        On February 20, 2026, the US Supreme Court issued an emergency stay in <em>Learning Resources, Inc. v. Trump</em>, halting collection of IEEPA tariffs. Importers who paid IEEPA tariffs on entries made between <strong>February 4 and February 24, 2026</strong> are eligible for refunds through CBP's <strong>CAPE (Claim for Already-Paid Entries)</strong> program. CBP processes all CAPE refunds exclusively via ACH transfer — requiring you to have a registered ACE account with an enrolled US bank account.
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="doc-card">
+        <span class="phase-label">Phase 1</span>
+        <h2>Prerequisites — Before You Register</h2>
+        <p>Gather these three things before starting your ACE application. Missing any of them will stall the process.</p>
+        <div class="prereq-grid">
+            <div class="prereq-card">
+                <div class="prereq-icon">📋</div>
+                <h4>A — CBP Form 5106</h4>
+                <p>Importer ID / Drawback Claimant ID. Must show a current point-of-contact (POC) email — CBP sends your ACE verification code to this address. If your Form 5106 is out of date, file an updated one first.</p>
+            </div>
+            <div class="prereq-card">
+                <div class="prereq-icon">🏢</div>
+                <h4>B — IOR Number</h4>
+                <p>Your Importer of Record number — either your <strong>EIN</strong> (Employer Identification Number) or a CBP-assigned IOR number. This must match the IOR on the entries you are claiming a refund for.</p>
+            </div>
+            <div class="prereq-card">
+                <div class="prereq-icon">🏦</div>
+                <h4>C — US Bank Account</h4>
+                <p>A US bank account capable of receiving NACHA-compliant ACH transfers. CBP does not issue paper checks for CAPE refunds. Non-resident importers must use a US correspondent banking arrangement.</p>
+            </div>
+        </div>
+        <div class="warning-box">
+            <strong>POC Email is critical:</strong> CBP will send a verification code to the email on file with your CBP Form 5106. If that email is no longer monitored or is incorrect, you will not receive the code and cannot complete registration. Update Form 5106 at your local CBP port of entry before starting.
+        </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="doc-card">
+        <span class="phase-label">Phase 2</span>
+        <h2>Registering for ACE — Step by Step</h2>
+
+        <h3>Step 1 — Check if you already have an ACE account</h3>
+        <p>Many importers have an ACE account from prior filings. Before registering a new one, check with your customs broker or freight forwarder. You can also search by IOR number at the CBP portal.</p>
+        <div class="success-box">If you already have an ACE account, skip to <strong>Step 5 — Enroll Your Bank Account</strong>. You do not need to re-register.</div>
+
+        <h3>Step 2 — Go to the ACE Importer Portal Application</h3>
+        <p>Navigate to the official CBP application page:</p>
+        <p><a href="https://www.cbp.gov/trade/automated/how-to-use-ace/portal-applying" target="_blank" class="url-link">https://www.cbp.gov/trade/automated/how-to-use-ace/portal-applying</a></p>
+        <p>From there, go to the importer registration form:</p>
+        <p><a href="https://ace-accounts.cbp.gov/s/importer-form" target="_blank" class="url-link">https://ace-accounts.cbp.gov/s/importer-form</a></p>
+        <p>Have your IOR number and business details ready before you begin.</p>
+
+        <h3>Step 3 — Receive and enter your verification code</h3>
+        <p>After submitting the form, CBP will send a verification code to the email address on your CBP Form 5106. Check that inbox (including spam/junk). Enter the code to verify your account.</p>
+        <div class="warning-box"><strong>Code not received?</strong> Your Form 5106 may have an outdated email address. Contact <a href="mailto:ace.applications@cbp.dhs.gov" style="color:#E65100;">ace.applications@cbp.dhs.gov</a> for assistance.</div>
+
+        <h3>Step 4 — Complete the ACE application</h3>
+        <p>Fill in your company details, address, IOR number, and contact information. CBP reviews applications typically within 3–5 business days. You will receive an email confirmation when your account is active.</p>
+
+        <h3>Step 5 — Enroll your US bank account for ACH refunds</h3>
+        <p>Once your ACE account is active, log in and navigate to the ACH Refund section to enroll your US bank account. You will need:</p>
+        <ul>
+            <li>Bank name and address</li>
+            <li>ABA routing number (9 digits)</li>
+            <li>Account number</li>
+            <li>Account type (checking or savings)</li>
+        </ul>
+        <p>CBP's ACH Refund enrollment page:</p>
+        <p><a href="https://www.cbp.gov/trade/automated/how-to-use-ace/ACH-refunds" target="_blank" class="url-link">https://www.cbp.gov/trade/automated/how-to-use-ace/ACH-refunds</a></p>
+        <div class="success-box"><strong>ACH payments are live:</strong> CBP began processing CAPE refunds via ACH on May 12, 2026. Importers with enrolled accounts are receiving funds directly. If your refund is rejected due to banking issues, it will appear in the REV-613 report in your ACE account.</div>
+
+        <h3>Step 6 — Export your ACE reports for TariffBack</h3>
+        <p>Once your ACE account is active, export the following two reports and send them to TariffBack to begin your refund analysis:</p>
+        <ul>
+            <li><strong>ES-001</strong> — Entry Summary report (covers the Feb 4–Feb 24, 2026 date range)</li>
+            <li><strong>ES-003</strong> — Entry Summary Line Item report (same date range)</li>
+        </ul>
+        <p>TariffBack's ACE data export guide walks you through generating these reports — it is included in the email you receive after submitting your audit request.</p>
+    </div>
+
+    <!-- Multiple IOR suffixes -->
+    <div class="doc-card">
+        <h2>Multiple IOR Numbers / Suffixes</h2>
+        <p>If your business imported under multiple IOR numbers (e.g., different suffixes for different ports or business units), each IOR may require a separate ACE account enrollment. Common situations:</p>
+        <ul>
+            <li>Parent and subsidiary companies with separate EINs</li>
+            <li>Importers who used both their EIN and a CBP-assigned IOR number</li>
+            <li>Businesses that re-organized or changed legal entities during the eligible period</li>
+        </ul>
+        <p>If you are unsure which IOR numbers your entries were filed under, check with your customs broker or review your ES-001 report. TariffBack can help identify the correct IOR configuration during the analysis phase.</p>
+    </div>
+
+    <!-- Key URLs -->
+    <div class="doc-card">
+        <h2>Key CBP Resources</h2>
+        <table class="url-table">
+            <thead><tr><th>Resource</th><th>URL / Contact</th></tr></thead>
+            <tbody>
+                <tr><td>ACE Portal Application Page</td><td><a href="https://www.cbp.gov/trade/automated/how-to-use-ace/portal-applying" target="_blank" class="url-link">cbp.gov/trade/automated/how-to-use-ace/portal-applying</a></td></tr>
+                <tr><td>ACE Importer Registration Form</td><td><a href="https://ace-accounts.cbp.gov/s/importer-form" target="_blank" class="url-link">ace-accounts.cbp.gov/s/importer-form</a></td></tr>
+                <tr><td>ACH Refund Enrollment</td><td><a href="https://www.cbp.gov/trade/automated/how-to-use-ace/ACH-refunds" target="_blank" class="url-link">cbp.gov/trade/automated/how-to-use-ace/ACH-refunds</a></td></tr>
+                <tr><td>ACE FAQs</td><td><a href="https://www.cbp.gov/trade/automated/ACE-faqs" target="_blank" class="url-link">cbp.gov/trade/automated/ACE-faqs</a></td></tr>
+                <tr><td>ACE Technical Support</td><td><a href="mailto:ACESupport@cbp.dhs.gov">ACESupport@cbp.dhs.gov</a></td></tr>
+                <tr><td>ACE Account Applications</td><td><a href="mailto:ace.applications@cbp.dhs.gov">ace.applications@cbp.dhs.gov</a></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Critical Notes -->
+    <div class="doc-card">
+        <h2>Critical Information — May 2026</h2>
+        <div class="critical-grid">
+            <div class="critical-item">
+                <h4>Only IEEPA tariffs are refundable</h4>
+                <p>Section 301 (China trade war) and Section 232 (steel/aluminum) tariffs are NOT eligible for refund under the CAPE program. Only IEEPA tariffs paid Feb 4–Feb 24, 2026 qualify.</p>
+            </div>
+            <div class="critical-item">
+                <h4>15% replacement tariff is in effect</h4>
+                <p>A new 15% IEEPA tariff took effect after the Supreme Court stay. This is a separate, ongoing charge — not eligible for refund. Your refund is for the prior higher rate paid during the eligible period only.</p>
+            </div>
+            <div class="critical-item">
+                <h4>ACH is the only payment method</h4>
+                <p>CBP does not issue paper checks for CAPE refunds. You must have a US bank account enrolled in ACE via the ACH Refund program to receive your refund.</p>
+            </div>
+            <div class="critical-item">
+                <h4>CAPE filing deadlines apply</h4>
+                <p>CBP may impose a deadline for CAPE Declaration submissions. File as early as possible to ensure your claim is processed. TariffBack recommends completing ACE registration and data export within 30 days.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-band">
+        <h3>Ready to claim your refund?</h3>
+        <p>Once your ACE account is active, TariffBack can analyze your entry data and prepare your CAPE Declaration in 24–48 hours.</p>
+        <a href="/" class="btn-primary">Start Your Free Audit →</a>
+    </div>
+
+</div>
+<footer>
+    <div class="footer-links">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/ace-guide">ACE Registration Guide</a>
+    </div>
+    © 2026 TariffBack. All rights reserved.
+</footer>
+</body>
+</html>
