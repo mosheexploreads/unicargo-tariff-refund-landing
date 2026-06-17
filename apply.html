@@ -607,7 +607,6 @@
                             <div class="fee-row-sm"><span>Pricing tier</span><span id="sumTier">—</span></div>
                             <div class="fee-row-sm total"><span>Total due today</span><span id="sumTotal">—</span></div>
                         </div>
-                        <div class="dummy-note">⚠️ Test mode — no real charge will occur</div>
                         <div class="ph-field"><label>Cardholder Name</label><input type="text" id="cardName" placeholder="Name on card"></div>
                         <div class="card-group">
                             <div class="card-row">💳 <input type="text" id="cardNumber" placeholder="Card number" maxlength="19" inputmode="numeric"></div>
@@ -617,6 +616,10 @@
                             </div>
                         </div>
                         <button class="pay-btn-hero" onclick="processPayment()">🔒 Pay <span id="payBtnAmt">—</span> — BDO Escrow</button>
+                        <div id="payErrorBox" style="display:none;margin-top:0.85rem;background:#FFF0F0;border:1.5px solid #E53935;border-radius:6px;padding:0.85rem 1rem;font-size:0.82rem;color:#B71C1C;line-height:1.5;">
+                            <strong>Payment processor temporarily unavailable.</strong><br>
+                            We're working to resolve this — please try again in a few minutes or contact us at <a href="mailto:hello@tariffback.ai" style="color:#B71C1C;">hello@tariffback.ai</a> to secure your claim manually.
+                        </div>
                         <div class="sec-badges">
                             <span class="sec-b">🔒 SSL Encrypted</span>
                             <span class="sec-b">🏦 BDO Escrow</span>
@@ -1107,15 +1110,21 @@
             if (!cardName || cardNumber.length < 13 || !expiry || cvc.length < 3) {
                 alert('Please complete all card fields.'); return;
             }
+            // Clear card data immediately — never stored
+            document.getElementById('cardNumber').value = '';
+            document.getElementById('cardCvc').value = '';
+
             var btn = document.querySelector('.pay-btn-hero');
-            btn.textContent = '⏳ Processing...';
+            btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><svg width="18" height="18" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#1A3A52"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="3"><circle stroke-opacity=".3" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="0.9s" repeatCount="indefinite"/></path></g></g></svg> Processing payment…</span>';
             btn.disabled = true;
+
             setTimeout(function() {
-                document.getElementById('successAmt').textContent = fmtFull(state.fee);
-                setStep(4);
-                document.getElementById('ps3').classList.remove('visible');
-                document.getElementById('ps4').classList.add('visible');
-            }, 1800);
+                btn.innerHTML = '🔒 Pay <span id="payBtnAmt">' + fmtFull(state.fee) + '</span> — BDO Escrow';
+                btn.disabled = false;
+                var errorBox = document.getElementById('payErrorBox');
+                errorBox.style.display = 'block';
+                errorBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 3200);
         }
 
         function setStep(n) {
