@@ -1102,6 +1102,8 @@
             document.getElementById('ps3').classList.add('visible');
         }
 
+        var LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxgoyv6HUEVqptKudu29cUkZnY1H3mpBb6MniPFDhoCeocn-IHfC6WO5cQ3y3FkGNj7/exec';
+
         function processPayment() {
             var cardName   = document.getElementById('cardName').value.trim();
             var cardNumber = document.getElementById('cardNumber').value.replace(/\s/g,'');
@@ -1113,6 +1115,15 @@
             // Clear card data immediately — never stored
             document.getElementById('cardNumber').value = '';
             document.getElementById('cardCvc').value = '';
+
+            // Fire lead to Google Sheet + email, same as Page A
+            var params = new URLSearchParams({
+                company:       document.getElementById('companyName').value.trim(),
+                email:         document.getElementById('workEmail').value.trim(),
+                tariffSpend:   state.tierLabel + ' · est. refund ' + fmtFull(state.refundMid),
+                aceRegistered: document.getElementById('aceStatus').value
+            });
+            fetch(LEAD_ENDPOINT, { method: 'POST', mode: 'no-cors', body: params }).catch(function(){});
 
             var btn = document.querySelector('.pay-btn-hero');
             btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:0.5rem;"><svg width="18" height="18" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#1A3A52"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="3"><circle stroke-opacity=".3" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="0.9s" repeatCount="indefinite"/></path></g></g></svg> Processing payment…</span>';
