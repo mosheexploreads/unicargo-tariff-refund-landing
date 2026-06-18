@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Your IEEPA Tariff Refund - TariffBack</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF7X7NMYYB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FF7X7NMYYB');
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1018,9 +1026,9 @@
     <footer>
         <div class="footer-content">
             <div class="footer-links">
-                <a href="/privacy">Privacy Policy</a>
-                <a href="/terms">Terms of Service</a>
-                <a href="/ace-guide">ACE Registration Guide</a>
+                <a href="/privacy.html">Privacy Policy</a>
+                <a href="/terms.html">Terms of Service</a>
+                <a href="/ace-guide.html">ACE Registration Guide</a>
             </div>
             <div class="footer-copyright">
                 © 2026 TariffBack. All rights reserved. IEEPA Tariff Refunds are administered by the U.S. Customs and Border Protection (CBP).
@@ -1100,6 +1108,10 @@
             setStep(3);
             document.getElementById('ps2').classList.remove('visible');
             document.getElementById('ps3').classList.add('visible');
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'close_convert_lead', { value: state.fee, currency: 'USD' });
+            }
         }
 
         var LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxgoyv6HUEVqptKudu29cUkZnY1H3mpBb6MniPFDhoCeocn-IHfC6WO5cQ3y3FkGNj7/exec';
