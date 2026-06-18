@@ -1110,6 +1110,10 @@
             document.getElementById('ps3').classList.add('visible');
 
             if (typeof gtag === 'function') {
+                // qualify_lead = lead captured (company + email) — matches the homepage form submit
+                // so the homepage vs apply.html landing-page A/B test compares the same action.
+                gtag('event', 'qualify_lead', { ace_registered: (document.getElementById('aceStatus') ? document.getElementById('aceStatus').value : '') });
+                // close_convert_lead = deeper event (reached payment step)
                 gtag('event', 'close_convert_lead', { value: state.fee, currency: 'USD' });
             }
         }
